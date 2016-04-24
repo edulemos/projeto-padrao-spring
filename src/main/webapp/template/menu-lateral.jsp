@@ -14,7 +14,7 @@
 				class="fa fa-collapse"></i></a></li>
 		<li>
 			<ul class="user-menu nav nav-list collapse">
-				<li><a href="<c:url value="/cadastro/produto"/>"><span class="fa fa-caret-right"></span> Produto</a></li>
+				<li><a href="<c:url value="/cadastros/produto"/>"><span class="fa fa-caret-right"></span> Produto</a></li>
 			</ul>
 		</li>
 
