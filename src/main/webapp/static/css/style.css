@@ -1,0 +1,19 @@
+.div-alert {
+	margin-left: 10px;
+	margin-right: 10px;
+	text-align: center;
+}
+
+.input-erro {
+	color: red;
+	font-weight: bold;
+}
+
+.error {
+	border: 1px solid red;
+}
+
+.dataTables_filter{
+	padding: 5px;
+}
+
