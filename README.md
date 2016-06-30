@@ -3,7 +3,7 @@ projeto spring mvc configurado
 
 ## Link projeto rodando: http://54.232.208.198:8080/spring
  
-### Características Projeto:
+### Tecnologias:
  
  * spring mcv
  * srping security
@@ -13,10 +13,10 @@ projeto spring mvc configurado
  * tomcat 8 
  * java 7
  
-### Implementado:
+### Caracteristicas:
  
  * login
  * recuperar senha
- * administração de usuários
+ * administraÃ§Ã£ode usuÃ¡rios
  * envio de email
  
