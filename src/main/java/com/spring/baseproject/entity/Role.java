@@ -13,7 +13,7 @@ import javax.persistence.Transient;
 import org.springframework.security.core.GrantedAuthority;
 
 @Entity
-@Table(name = "USER_ROLES")
+@Table(name = "TB_USUARIO_ROLES ")
 public class Role implements GrantedAuthority {
 
 	private static final long serialVersionUID = 1L;
