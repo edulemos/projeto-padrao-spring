@@ -16,29 +16,29 @@ public class AdminController {
 
 	@Autowired
 	private UserService userService;
-	
+
 	@Autowired
-    private MessageSource messages;
+	private MessageSource messages;
 
 	@RequestMapping("/admin/user/list")
 	public String userList(Model model) {
 		model.addAttribute("listaUsuarios", userService.findAll());
-		return "admin/adminUserList";
+		return "admin/admin-user-list";
 	}
 
 	@RequestMapping(value = "/admin/user/{id}", method = RequestMethod.GET)
 	public String userForm(@PathVariable("id") Long id, Model model) {
-		User user = id != null ?  userService.findBYId(id) : null;
+		User user = id != null ? userService.findBYId(id) : null;
 		model.addAttribute("roles", userService.userRoles(user));
 		model.addAttribute("user", user);
-		return "admin/adminUserForm";
+		return "admin/admin-user-form";
 	}
 
 	@RequestMapping(value = "/admin/user/find", method = RequestMethod.POST)
 	public String userPesquisar(String textotPesquisa, Model model) {
 		if (!textotPesquisa.isEmpty()) {
 			model.addAttribute("listaUsuarios", userService.find(textotPesquisa));
-			return "admin/adminUserList";
+			return "admin/admin-user-list";
 		}
 		return userList(model);
 	}
@@ -48,7 +48,8 @@ public class AdminController {
 		try {
 			boolean novo = user.getId() == null;
 			userService.salvar(user);
-			String str = !novo ? messages.getMessage("user.edit.success", null, null) : messages.getMessage("user.save.success", null, null);
+			String str = !novo ? messages.getMessage("admin-user-list.usuario.alterado", null, null) : messages.getMessage(
+					"admin-user-list.usuario.salvo", null, null);
 			model.addAttribute("msg", str);
 			return userList(model);
 		} catch (Exception e) {
@@ -60,7 +61,7 @@ public class AdminController {
 
 	@RequestMapping(value = "/admin/user/delete/{id}", method = RequestMethod.GET)
 	public String userDelete(@PathVariable Long id, Model model) {
-		model.addAttribute("msg", messages.getMessage("user.delete.success",null,null));
+		model.addAttribute("msg", messages.getMessage("admin-user-list.usuario.deletado", null, null));
 		userService.deleteBYId(id);
 		return userList(model);
 	}

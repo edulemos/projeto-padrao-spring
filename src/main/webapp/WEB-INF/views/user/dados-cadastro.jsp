@@ -2,25 +2,25 @@
 
 
 <fieldset>
-	<legend>Dados Cadastrais</legend>
+	<legend><spring:message code="dados-cadastro.titulo"/></legend>
 
 <form:form modelAttribute="userForm" servletRelativeAction="/user/dadosCadastrais/save" onsubmit="return validateFormUser()">
 
 	<div class="row">
 		<div class="form-group col-md-6">
-			<label>Nome</label> <input type="text" name="name" class="form-control" value="${user.name}" />
+			<label><spring:message code="dados-cadastro.label.nome"/></label> <input type="text" name="name" class="form-control" value="${user.name}" />
 		</div>
 	</div>
 	
 	<div class="row">
 		<div class="form-group col-md-6">
-			<label>Email</label> <input type="text" name="email" class="form-control" value="${user.email}" />
+			<label><spring:message code="dados-cadastro.label.email"/></label> <input type="text" name="email" class="form-control" value="${user.email}" />
 		</div>
 	</div>
 	
 	<div class="row">
 		<div class="form-group col-md-6">
-			<input type="submit" value="GRAVAR" class="btn btn-primary" />
+			<input type="submit" value="<spring:message code="dados-cadastro.btn.enviar"/>" class="btn btn-primary" />
 		</div>
 	</div>
 	

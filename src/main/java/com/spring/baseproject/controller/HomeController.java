@@ -55,7 +55,7 @@ public class HomeController {
 
 			userService.cadastrarUsuario(form);
 
-			model.addAttribute("msg", messages.getMessage("user.registered.success", null, null));
+			model.addAttribute("msg", messages.getMessage("cadastro.msg.sucesso", null, null));
 
 		} catch (Exception e) {
 			model.addAttribute("error", e.getMessage());
@@ -84,14 +84,14 @@ public class HomeController {
 		return new ModelAndView("home/home");
 	}
 
-	@RequestMapping(value = "/acessoNegado")
+	@RequestMapping(value = "/acesso-negado")
 	public ModelAndView accesssDenied() {
-		return new ModelAndView("home/acessoNegado");
+		return new ModelAndView("home/acesso-negado");
 	}
 
 	@RequestMapping(value = "/login/recuperarSenha")
 	public String recuperarSenha() {
-		return "home/recuperarSenha";
+		return "home/recuperar-senha";
 	}
 
 	@RequestMapping(value = "/login/recuperarSenha/enviarEmail", method = RequestMethod.POST)
@@ -99,7 +99,7 @@ public class HomeController {
 		try {
 			String path = rootPatch();
 			userService.recuperarSenha(email, path);
-			model.addAttribute("msg", messages.getMessage("email.recuperar", null, null));
+			model.addAttribute("msg", messages.getMessage("recuperar-senha.msg.emailenviado", null, null));
 		} catch (Exception e) {
 			model.addAttribute("error", e.getMessage());
 		}
@@ -112,10 +112,10 @@ public class HomeController {
 		try {
 			String path = rootPatch();
 			userService.verifcarKey(email, key, path);
-			return "home/resetarSenha";
+			return "home/resetar-senha";
 		} catch (Exception e) {
 			model.addAttribute("error", e.getMessage());
-			return "home/recuperarSenha";
+			return "home/recuperar-senha";
 		}
 	}
 	
@@ -124,11 +124,11 @@ public class HomeController {
 		try {
 			String path = rootPatch();
 			userService.alterarSenha(form, key, path);
-			model.addAttribute("msg", messages.getMessage("email.recuperar.senha.ok", null, null));
+			model.addAttribute("msg", messages.getMessage("recuperar-senha.sucesso", null, null));
 			return "home/login";
 		} catch (Exception e) {
 			model.addAttribute("error", e.getMessage());
-			return "home/recuperarSenha";
+			return "home/recuperar-senha";
 		}
 	}
 

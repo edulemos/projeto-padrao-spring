@@ -17,3 +17,11 @@
 	padding: 5px;
 }
 
+.upper-text{
+	text-transform: uppercase;
+}
+
+label{
+	font-weight: bold;
+}
+

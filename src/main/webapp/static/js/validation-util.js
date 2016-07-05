@@ -1,6 +1,6 @@
 /**MENSAGENS DE ERRO PADRONIZADAS**/
 
-var notEmptyMessage = "<span class='input-erro span-erro'>Voc\u00ea n\u00e3o pode deixar este campo em branco.</span>";
+var notEmptyMessage = "<span class='input-erro span-erro'>Voc\u00ea n\u00e3o pode deixar este campo em branco</span>";
 var notEqualsMessage = "<span class='input-erro span-erro'>Valor diferente da confirma\u00e7\u00e3o</span>";
 var emailMessage = "<span class='input-erro span-erro'>Email inv\u00e1lido</span>";
 

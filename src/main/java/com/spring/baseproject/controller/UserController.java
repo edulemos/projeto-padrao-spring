@@ -30,7 +30,7 @@ public class UserController {
 	public String dadosCadastrais(Model model) {
 		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		model.addAttribute("user", user);
-		return "user/dadosCadastrais";
+		return "user/dados-cadastro";
 	}
 
 	@RequestMapping(value = "/user/dadosCadastrais/save")
@@ -40,7 +40,7 @@ public class UserController {
 			userSession.setEmail(user.getEmail());
 			userSession.setName(user.getName());
 			service.salvar(userSession);
-			model.addAttribute("msg", messages.getMessage("user.edit.success", null, null));
+			model.addAttribute("msg", messages.getMessage("dados-cadastro..usuario.alterado", null, null));
 			model.addAttribute("user", userSession);
 		} catch (Exception e) {
 			model.addAttribute("error", e.getMessage());
@@ -51,7 +51,7 @@ public class UserController {
 
 	@RequestMapping(value = "/user/alterarSenha")
 	public String alterarSenha(Model model) {
-		return "user/alterarSenha";
+		return "user/alterar-senha";
 	}
 
 	@RequestMapping(value = "/user/alterarSenha/save")
@@ -59,7 +59,7 @@ public class UserController {
 		try {
 			User userSession = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 			service.alterarSenha(userSession, form);
-			model.addAttribute("msg", messages.getMessage("user.edit.password.success", null, null));
+			model.addAttribute("msg", messages.getMessage("alterar-senha.sucesso", null, null));
 		} catch (Exception e) {
 			model.addAttribute("error", e.getMessage());
 		}

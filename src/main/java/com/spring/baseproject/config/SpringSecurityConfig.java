@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
+import com.spring.baseproject.enumeration.RolesEnum;
 import com.spring.baseproject.service.SecutiryUserDetailsService;
 
 @Configuration
@@ -25,8 +26,11 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 		 http.authorizeRequests()
 		 
 		 	.antMatchers("/login/**", "/cadastro/**").permitAll()                
-		    .antMatchers("/cadastros/**").access("hasRole('ADMIN') or hasRole('USER')")
-		    .antMatchers("/admin/**").access("hasRole('ADMIN')")
+		 	
+		    .antMatchers(RolesEnum.ADMIN_MANTER_USUARIOS.getUrl()).access(RolesEnum.ADMIN_MANTER_USUARIOS.getRoleAcess())		    
+		    .antMatchers(RolesEnum.CADASTRO_PRODUTO.getUrl()).access(RolesEnum.CADASTRO_PRODUTO.getRoleAcess())
+		    .antMatchers(RolesEnum.CONTA_USUARIO.getUrl()).access(RolesEnum.CONTA_USUARIO.getRoleAcess())
+		    
 			.anyRequest().authenticated()                                                   
 		    .and()   
 		    
@@ -42,7 +46,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 	        
 			.csrf().disable()	        
 	        .exceptionHandling()
-	        .accessDeniedPage("/acessoNegado");
+	        .accessDeniedPage("/acesso-negado");
 	        	        
 	}
 

@@ -36,6 +36,5 @@ function validateFormCadastro() {
 	validForm = validateNotEmptyInput('senha', validForm);
 	validForm = validateNotEmptyInput('confirmaSenha', validForm);
 	validForm = validateEqualsInput('senha', 'confirmaSenha', validForm);
-	validForm = validateNotEmptySelect('role', validForm);
 	return validForm;
 }

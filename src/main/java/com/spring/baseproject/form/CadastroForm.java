@@ -26,9 +26,6 @@ public class CadastroForm implements Serializable {
 	@NotEmpty
 	private String confirmaSenha;
 
-	@NotEmpty
-	private String role;
-
 	public String getNome() {
 		return nome;
 	}
@@ -67,14 +64,6 @@ public class CadastroForm implements Serializable {
 
 	public void setConfirmaSenha(String confirmaSenha) {
 		this.confirmaSenha = confirmaSenha;
-	}
-
-	public String getRole() {
-		return role;
-	}
-
-	public void setRole(String role) {
-		this.role = role;
 	}
 
 }

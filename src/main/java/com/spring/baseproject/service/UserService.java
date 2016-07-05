@@ -62,14 +62,14 @@ public class UserService extends Util {
 		user = userRepository.findUserByEmail(form.getEmail());
 
 		if (null != user) {
-			throw new BussinesException(messages.getMessage("user.email.emuso", null, null));
+			throw new BussinesException(messages.getMessage("cadastro.msg.emailemuso", null, null));
 		}
 
 		user = new User();
 		user.setEmail(form.getEmail());
 		user.setPassword(encryptMD5(form.getSenha()));
 		user.setName(form.getNome());
-		user.setAuthorities(Arrays.asList(new Role(form.getRole())));
+		user.setAuthorities(Arrays.asList(new Role(RolesEnum.CONTA_USUARIO.getRole())));
 
 		userRepository.save(user);
 
@@ -84,9 +84,9 @@ public class UserService extends Util {
 		boolean mesmoUsuario = !novoUsuario && emailJaCadastrado && user.getId().equals(userMail.getId());
 
 		if (emailJaCadastrado && novoUsuario) {
-			throw new BussinesException(messages.getMessage("user.email.emuso", null, null));
+			throw new BussinesException(messages.getMessage("admin-user-form.msg.emailemuso", null, null));
 		} else if (emailJaCadastrado && !novoUsuario && !mesmoUsuario) {
-			throw new BussinesException(messages.getMessage("user.email.emuso", null, null));
+			throw new BussinesException(messages.getMessage("admin-user-form.msg.emailemuso", null, null));
 		}
 
 		if (novoUsuario) {
@@ -106,7 +106,7 @@ public class UserService extends Util {
 		String novaSenha = encryptMD5(form.getConfirmaSenha());
 
 		if (!senhaAtualSistema.equals(senhaAtualDigitada)) {
-			throw new BussinesException(messages.getMessage("user.password.error", null, null));
+			throw new BussinesException(messages.getMessage("alterar-senha.msg.senhaatualinvalida", null, null));
 		}
 
 		userSession.setPassword(novaSenha);
@@ -120,8 +120,8 @@ public class UserService extends Util {
 		Role role = null;
 		for (RolesEnum r : RolesEnum.values()) {
 			role = new Role();
-			role.setName(r.getValue());
-			role.setLabel(r.name());
+			role.setName(r.getRole());
+			role.setLabel(r.getDescricao());
 			roles.add(role);
 		}
 		return roles;
@@ -150,11 +150,11 @@ public class UserService extends Util {
 		}
 		Role role = null;
 		for (RolesEnum r : RolesEnum.values()) {
-			if (userRoles.contains(r.getValue())) {
+			if (userRoles.contains(r.getRole())) {
 				continue;
 			}
 			role = new Role();
-			role.setName(r.getValue());
+			role.setName(r.getRole());
 			role.setLabel(r.name());
 			roles.add(role);
 		}
@@ -167,7 +167,7 @@ public class UserService extends Util {
 		User userMail = userRepository.findUserByEmail(email);
 	
 		if (userMail == null) {
-			throw new BussinesException(messages.getMessage("email.recuperar.nao.cadastrado", null, null));
+			throw new BussinesException(messages.getMessage("recuperar-senha.msg.emailnaocadastrado", null, null));
 		} 
 		
 		HashMap<String, String> parametros = new HashMap<String, String>();
@@ -185,7 +185,7 @@ public class UserService extends Util {
 	public void verifcarKey(String email, String key, String path) {
 		String encryptKey = encryptMD5(email+path+email);
 		if (!encryptKey.equals(key)) {
-			throw new BussinesException(messages.getMessage("email.recuperar.chave.invalida", null, null));
+			throw new BussinesException(messages.getMessage("recuperar-senha.msg.chaveinvalida", null, null));
 		}
 	}
 
