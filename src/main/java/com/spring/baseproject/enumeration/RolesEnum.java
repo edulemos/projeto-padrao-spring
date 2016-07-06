@@ -3,8 +3,7 @@ package com.spring.baseproject.enumeration;
 public enum RolesEnum {
 
 	ADMIN_MANTER_USUARIOS("ROLE_ADMIN_MANTER_USUARIOS", "hasRole('ADMIN_MANTER_USUARIOS')", "/admin/user/**", "Manter usuários sistema"),
-	CADASTRO_PRODUTO("ROLE_CADASTRO_PRODUTO", "hasRole('CADASTRO_PRODUTO')", "/cadastros/produto/**", "Manter produtos"),
-	CONTA_USUARIO("ROLE_CONTA_USUARIO", "hasRole('CONTA_USUARIO')", "/user/**", "Manter Conta usuário");
+	CADASTRO_PRODUTO("ROLE_CADASTRO_PRODUTO", "hasRole('CADASTRO_PRODUTO')", "/cadastros/produto/**", "Manter produtos");
 
 	private String role;
 	private String roleAcess;

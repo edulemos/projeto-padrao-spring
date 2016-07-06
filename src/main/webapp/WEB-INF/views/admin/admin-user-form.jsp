@@ -54,7 +54,7 @@
 					<div class="list-group">
 						<c:forEach items="${user.authorities}" var="rule">
 							<a href="${pageContext.request.contextPath}/admin/user/${user.id}/delete/role/${rule.id}" class="list-group-item"
-								onclick="return confirm('Confirma a exclusâo do perfil ${rule.label}?')"><i class="fa fa-minus-square"></i>&nbsp;&nbsp;${rule.label}</a>
+								onclick="return confirm('<spring:message code="admin-user-form.label.excluiperfil" /> ${rule.name}?')"><i class="fa fa-minus-square"></i>&nbsp;&nbsp;${rule.name}</a>
 						</c:forEach>
 					</div>
 				</div>
@@ -64,7 +64,7 @@
 					<div class="list-group">
 						<c:forEach items="${roles}" var="r">
 							<a href="${pageContext.request.contextPath}/admin/user/${user.id}/add/role/${r.name}" class="list-group-item"
-								onclick="return confirm('Confirma a inclusão do perfil ${r.label}?')"><i class="fa fa-plus-square"></i>&nbsp;&nbsp;${r.label}</a>
+								onclick="return confirm('<spring:message code="admin-user-form.label.adicionaperfil" /> ${r.name}?')"><i class="fa fa-plus-square"></i>&nbsp;&nbsp;${r.name}</a>
 						</c:forEach>
 					</div>
 				</div>
@@ -73,7 +73,7 @@
 
 		</c:if>
 
-	<input type="button" value="<spring:message code="admin-user-form.btn.voltar" />" onclick="window.history.back()" class="btn btn-primary"/> 
+	<a href="<c:url value="/admin/user/list"/>"><input type="button" value="Voltar" class="btn btn-primary" /></a>&nbsp; 
 	&nbsp;
 	<input type="submit" value="<spring:message code="admin-user-form.btn.enviar" />" class="btn btn-primary" />
 

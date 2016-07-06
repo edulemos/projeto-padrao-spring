@@ -29,8 +29,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 		 	
 		    .antMatchers(RolesEnum.ADMIN_MANTER_USUARIOS.getUrl()).access(RolesEnum.ADMIN_MANTER_USUARIOS.getRoleAcess())		    
 		    .antMatchers(RolesEnum.CADASTRO_PRODUTO.getUrl()).access(RolesEnum.CADASTRO_PRODUTO.getRoleAcess())
-		    .antMatchers(RolesEnum.CONTA_USUARIO.getUrl()).access(RolesEnum.CONTA_USUARIO.getRoleAcess())
-		    
+		    		    
 			.anyRequest().authenticated()                                                   
 		    .and()   
 		    

@@ -29,7 +29,7 @@ public class AdminController {
 	@RequestMapping(value = "/admin/user/{id}", method = RequestMethod.GET)
 	public String userForm(@PathVariable("id") Long id, Model model) {
 		User user = id != null ? userService.findBYId(id) : null;
-		model.addAttribute("roles", userService.userRoles(user));
+		model.addAttribute("roles", userService.rolesDisponiveiss(user));
 		model.addAttribute("user", user);
 		return "admin/admin-user-form";
 	}
@@ -76,6 +76,12 @@ public class AdminController {
 	public String userRoleAdd(@PathVariable Long userId, @PathVariable String roleName, Model model) {
 		userService.addRole(userId, roleName);
 		return userForm(userId, model);
+	}
+	
+	@RequestMapping(params = "action1")
+	public void action1() {
+		System.out.println("voltar");
+		
 	}
 
 }

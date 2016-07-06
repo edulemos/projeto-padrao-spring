@@ -1,7 +1,6 @@
 package com.spring.baseproject.service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -69,7 +68,6 @@ public class UserService extends Util {
 		user.setEmail(form.getEmail());
 		user.setPassword(encryptMD5(form.getSenha()));
 		user.setName(form.getNome());
-		user.setAuthorities(Arrays.asList(new Role(RolesEnum.CONTA_USUARIO.getRole())));
 
 		userRepository.save(user);
 
@@ -139,8 +137,8 @@ public class UserService extends Util {
 		role.setUser(user);
 		roleRepository.save(role);
 	}
-
-	public List<Role> userRoles(User user) {
+	
+	public List<Role> rolesDisponiveiss(User user) {
 		List<Role> roles = new ArrayList<Role>();
 		String userRoles = "";
 		if (null != user && !user.getAuthorities().isEmpty()) {
@@ -155,7 +153,7 @@ public class UserService extends Util {
 			}
 			role = new Role();
 			role.setName(r.getRole());
-			role.setLabel(r.name());
+			role.setLabel(r.getDescricao());
 			roles.add(role);
 		}
 
@@ -195,5 +193,7 @@ public class UserService extends Util {
 		user.setPassword(encryptMD5(form.getSenha()));
 		userRepository.save(user);	
 	}
+
+	
 
 }
