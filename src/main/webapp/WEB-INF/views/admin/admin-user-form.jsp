@@ -73,8 +73,12 @@
 
 		</c:if>
 
-	<a href="<c:url value="/admin/user/list"/>"><input type="button" value="Voltar" class="btn btn-primary" /></a>&nbsp; 
-	&nbsp;
+	&nbsp;&nbsp;
+	
+	<a href="${pageContext.request.contextPath}/admin/user/list">
+		<input type="button" value="<spring:message code="admin-user-form.btn.voltar" />" class="btn btn-primary" />
+	</a>
+	
 	<input type="submit" value="<spring:message code="admin-user-form.btn.enviar" />" class="btn btn-primary" />
 
 	</form:form>

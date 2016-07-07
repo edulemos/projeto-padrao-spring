@@ -77,11 +77,5 @@ public class AdminController {
 		userService.addRole(userId, roleName);
 		return userForm(userId, model);
 	}
-	
-	@RequestMapping(params = "action1")
-	public void action1() {
-		System.out.println("voltar");
-		
-	}
 
 }

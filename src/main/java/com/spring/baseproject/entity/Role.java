@@ -31,6 +31,13 @@ public class Role implements GrantedAuthority {
 	@Transient
 	private String label;
 
+	public Role() {
+	}
+
+	public Role(String name) {
+		this.name = name;
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -44,13 +51,6 @@ public class Role implements GrantedAuthority {
 	}
 
 	public void setName(String name) {
-		this.name = name;
-	}
-
-	public Role() {
-	}
-
-	public Role(String name) {
 		this.name = name;
 	}
 
