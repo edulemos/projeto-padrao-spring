@@ -194,6 +194,19 @@ public class UserService extends Util {
 		userRepository.save(user);	
 	}
 
+	public User tratarUserRole(User user) {
+		if(null == user) return user;
+		for (Role userRole : user.getAuthorities()) {
+			for (RolesEnum role : RolesEnum.values()) {
+				if (userRole.getName().equals(role.getRole())) {
+					userRole.setLabel(role.getDescricao());
+					continue;
+				}
+			}
+		}
+		return user;
+	}
+
 	
 
 }

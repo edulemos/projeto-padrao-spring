@@ -29,6 +29,7 @@ public class AdminController {
 	@RequestMapping(value = "/admin/user/{id}", method = RequestMethod.GET)
 	public String userForm(@PathVariable("id") Long id, Model model) {
 		User user = id != null ? userService.findBYId(id) : null;
+        user = userService.tratarUserRole(user);	
 		model.addAttribute("roles", userService.rolesDisponiveiss(user));
 		model.addAttribute("user", user);
 		return "admin/admin-user-form";
