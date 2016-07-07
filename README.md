@@ -8,15 +8,17 @@ projeto spring mvc configurado
  * spring mcv
  * srping security
  * spring data
- * anotations config
- * botstrap 3
+ * Spring anotations config
+ * botstrap 3 template
  * tomcat 8 
  * java 7
+ * maven
  
 ### Caracteristicas:
  
  * login
  * recuperar senha
- * administraçãode usuários
+ * administração de usuários
+ * perfis de usuários sistema
  * envio de email
  
