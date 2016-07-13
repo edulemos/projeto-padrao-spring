@@ -55,7 +55,7 @@ public class EmailUtil {
 
 			// carrega os parametros do template
 			for (Entry<String, String> entry : parametros.entrySet()) {
-				String key = "$P{" + entry.getKey() + "}";
+				String key =  entry.getKey();
 				String value = entry.getValue();
 				templateStr = templateStr.replace(key, value);
 			}

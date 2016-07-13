@@ -169,13 +169,13 @@ public class UserService extends Util {
 		} 
 		
 		HashMap<String, String> parametros = new HashMap<String, String>();
-		parametros.put("email", email);		
-		parametros.put("path", path);		
-		parametros.put("key", encryptMD5(email+path+email));		
+		parametros.put("$P{email}", email);		
+		parametros.put("$P{path}", path);		
+		parametros.put("$P{key}", encryptMD5(email+path+email));		
 		
 		emailUtil.setAssunto("Recuperar Senha");
 		emailUtil.setDestinatario(email);		
-		emailUtil.setNomeTemplate("emailRecuperarSenha.html");	
+		emailUtil.setNomeTemplate("recuperar-senha-email.html");	
 		emailUtil.setParametros(parametros);		
 		emailUtil.enviarEmailHtml();
 	}
