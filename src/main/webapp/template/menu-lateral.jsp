@@ -7,6 +7,7 @@
 		<li>
 			<ul class="admin-menu nav nav-list collapse">
 				<li><a href="<c:url value="/admin/user/list"/>"><spring:message code="menu.admin.usuarios.sistema"/></a></li>
+				<li><a href="<c:url value="/admin/perfil/list"/>"><spring:message code="menu.admin.perfis.sistema"/></a></li>
 			</ul>
 		</li>
 

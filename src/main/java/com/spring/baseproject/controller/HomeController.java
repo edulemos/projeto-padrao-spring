@@ -40,7 +40,6 @@ public class HomeController {
 
 	@RequestMapping("/cadastro")
 	public String cadastro(Model model) {
-		model.addAttribute("roles", userService.allRoles());
 		return "home/cadastro";
 	}
 

@@ -1,20 +1,25 @@
 package com.spring.baseproject.entity;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
@@ -36,16 +41,17 @@ public class User implements UserDetails {
 	@Column(nullable = false, length = 100)
 	private String name;
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinColumn(name = "USER_ID")
-	private List<Role> authorities = new ArrayList<>();
+	@ManyToMany
+	@JoinTable(name = "TB_USUARIO_PERFIL", joinColumns = { @JoinColumn(name = "USUARIO_ID") }, inverseJoinColumns = { @JoinColumn(name = "PERFIL_ID") })
+	@LazyCollection(LazyCollectionOption.FALSE)
+	private List<Perfil> perfis = new ArrayList<Perfil>();
 
 	@Transient
 	private boolean accountNonExpired;
-	
+
 	@Transient
 	private boolean accountNonLocked;
-	
+
 	@Transient
 	private boolean credentialsNonExpired;
 
@@ -81,10 +87,6 @@ public class User implements UserDetails {
 		this.name = name;
 	}
 
-	public void setAuthorities(List<Role> authorities) {
-		this.authorities = authorities;
-	}
-
 	public void setAccountNonExpired(boolean accountNonExpired) {
 		this.accountNonExpired = accountNonExpired;
 	}
@@ -97,9 +99,23 @@ public class User implements UserDetails {
 		this.credentialsNonExpired = credentialsNonExpired;
 	}
 
+	public List<Perfil> getPerfis() {
+		return perfis;
+	}
+
+	public void setPerfis(List<Perfil> perfis) {
+		this.perfis = perfis;
+	}
+
 	@Override
-	public List<Role> getAuthorities() {
-		return authorities;
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		Set<Role> roles = new HashSet<Role>();
+		if (perfis != null) {
+			for (Perfil perfil : perfis) {
+				roles.addAll(perfil.getRoles());
+			}
+		}
+		return roles;
 	}
 
 	@Override

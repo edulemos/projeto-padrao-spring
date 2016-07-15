@@ -1,41 +1,29 @@
 package com.spring.baseproject.entity;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import org.springframework.security.core.GrantedAuthority;
 
 @Entity
-@Table(name = "TB_USUARIO_ROLES ")
+@Table(name = "TB_ROLE")
 public class Role implements GrantedAuthority {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	private String name;
+	private String nome;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "USER_ID")
-	private User user;
-
-	@Transient
-	private String label;
+	private String descricao;
 
 	public Role() {
 	}
 
-	public Role(String name) {
-		this.name = name;
+	public Role(String nome) {
+		this.nome = nome;
 	}
 
 	public Long getId() {
@@ -46,33 +34,25 @@ public class Role implements GrantedAuthority {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public String getNome() {
+		return nome;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
 
-	public String getLabel() {
-		return label;
+	public String getDescricao() {
+		return descricao;
 	}
 
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
-	public void setLabel(String label) {
-		this.label = label;
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
 	}
 
 	@Override
 	public String getAuthority() {
-		return name;
+		return nome;
 	}
 
 	@Override
@@ -102,7 +82,7 @@ public class Role implements GrantedAuthority {
 
 	@Override
 	public String toString() {
-		return "Role [id=" + id + ", name=" + name + "]";
+		return "Role [id=" + id + ", nome=" + nome + ", descricao=" + descricao + "]";
 	}
 
 }

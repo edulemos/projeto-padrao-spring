@@ -20,7 +20,7 @@
 		<tr>
 			<th><spring:message code="admin-user-list.label.nome" /></th>
 			<th><spring:message code="admin-user-list.label.email" /></th>
-			<th><spring:message code="admin-user-list.label.permissoes" /></th>
+			<th><spring:message code="admin-user-list.label.perfis" /></th>
 			<th><spring:message code="admin-user-list.label.acoes" /></th>
 		</tr>
 	</thead>
@@ -31,8 +31,8 @@
 				<td>${user.email}</td>
 				<td>
 					<ul>
-						<c:forEach items="${user.authorities}" var="rule">
-							<li >${rule.name}</li>
+						<c:forEach items="${user.perfis}" var="perfil">
+							<li >${perfil.nome}</li>
 						</c:forEach>
 					</ul>
 				</td>

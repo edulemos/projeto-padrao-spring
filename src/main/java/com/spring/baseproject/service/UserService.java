@@ -6,14 +6,14 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 
 import com.spring.baseproject.Exception.BussinesException;
+import com.spring.baseproject.entity.Perfil;
 import com.spring.baseproject.entity.Role;
 import com.spring.baseproject.entity.User;
-import com.spring.baseproject.enumeration.RolesEnum;
 import com.spring.baseproject.form.CadastroForm;
+import com.spring.baseproject.repository.PerfilRepository;
 import com.spring.baseproject.repository.RoleRepository;
 import com.spring.baseproject.repository.UserRepository;
 import com.spring.baseproject.util.EmailUtil;
@@ -24,6 +24,9 @@ public class UserService extends Util {
 
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private PerfilRepository perfilRepository;
 
 	@Autowired
 	private RoleRepository roleRepository;
@@ -90,8 +93,12 @@ public class UserService extends Util {
 		if (novoUsuario) {
 			user.setPassword(encryptMD5(user.getPassword()));
 		} else {
-			List<Role> roles = roleRepository.findRoleByUser(user);
-			user.setAuthorities(roles);
+			
+			// TODO - Implementar busca perfis ao editar
+			
+//			List<Perfil> perfis = user.getPerfis();			
+//			user.setPerfis(perfis);
+			
 		}
 
 		userRepository.save(user);
@@ -113,48 +120,38 @@ public class UserService extends Util {
 
 	}
 
-	public List<Role> allRoles() {
-		List<Role> roles = new ArrayList<Role>();
-		Role role = null;
-		for (RolesEnum r : RolesEnum.values()) {
-			role = new Role();
-			role.setName(r.getRole());
-			role.setLabel(r.getDescricao());
-			roles.add(role);
-		}
-		return roles;
+	public List<Role> listarRoles() {		
+		return roleRepository.findAll();
 	}
 
 	public void deleteRoleBYId(Long id) {
 		roleRepository.delete(id);
 	}
 
-	public void addRole(Long userId, String roleName) {
-		Role role = new Role();
-		role.setName(roleName);
-		User user = new User();
-		user.setId(userId);
-		role.setUser(user);
-		roleRepository.save(role);
+	public void addPerfil(Long userId, Long perfilId) {
+		Perfil p = new Perfil();
+		p.setId(perfilId);		
+		User user = userRepository.findOne(userId);
+		user.getPerfis().add(p);			
+		userRepository.save(user);
 	}
 	
-	public List<Role> rolesDisponiveiss(User user) {
+	public List<Role> rolesDisponiveisPerfil(Perfil perfil) {
 		List<Role> roles = new ArrayList<Role>();
 		String userRoles = "";
-		if (null != user && !user.getAuthorities().isEmpty()) {
-			for (GrantedAuthority g : user.getAuthorities()) {
-				userRoles += g.getAuthority() + "#";
+		if (null != perfil && !perfil.getRoles().isEmpty()) {
+			for (Role p : perfil.getRoles() ) {
+				userRoles += p.getAuthority() + "#";
 			}
 		}
-		Role role = null;
-		for (RolesEnum r : RolesEnum.values()) {
-			if (userRoles.contains(r.getRole())) {
+		
+		List<Role> allRoles = roleRepository.findAll();
+		
+		for (Role r : allRoles) {
+			if (userRoles.contains(r.getNome())) {
 				continue;
-			}
-			role = new Role();
-			role.setName(r.getRole());
-			role.setLabel(r.getDescricao());
-			roles.add(role);
+			}			
+			roles.add(r);
 		}
 
 		return roles;
@@ -194,19 +191,26 @@ public class UserService extends Util {
 		userRepository.save(user);	
 	}
 
-	public User tratarUserRole(User user) {
-		if(null == user) return user;
-		for (Role userRole : user.getAuthorities()) {
-			for (RolesEnum role : RolesEnum.values()) {
-				if (userRole.getName().equals(role.getRole())) {
-					userRole.setLabel(role.getDescricao());
-					continue;
-				}
+	public Object perfisDisponiveis(User user) {
+		List<Perfil> perfisDiposniveis = perfilRepository.findAll();
+		for (Perfil perfil : user.getPerfis()) {
+			if (perfisDiposniveis.contains(perfil)) {				
+				perfisDiposniveis.remove(perfil);				
 			}
 		}
-		return user;
+		return perfisDiposniveis;
 	}
 
+	public void deletePerfil(Long userId, Long perfilId) {
+		Perfil p = new Perfil();
+		p.setId(perfilId);		
+		User user = userRepository.findOne(userId);
+		user.getPerfis().remove(p);			
+		userRepository.save(user);
+		
+	}
+
+	
 	
 
 }

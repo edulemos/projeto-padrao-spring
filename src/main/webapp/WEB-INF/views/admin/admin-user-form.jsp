@@ -52,9 +52,9 @@
 				<div class="form-group col-md-6">
 					<label><spring:message code="admin-user-form.label.perfil.assoc" />:</label>
 					<div class="list-group">
-						<c:forEach items="${user.authorities}" var="rule">
-							<a href="${pageContext.request.contextPath}/admin/user/${user.id}/delete/role/${rule.id}" class="list-group-item"
-								onclick="return confirm('<spring:message code="admin-user-form.label.excluiperfil" /> ${rule.label}?')"><i class="fa fa-minus-square"></i>&nbsp;&nbsp;${rule.label}</a>
+						<c:forEach items="${user.perfis}" var="perfil">
+							<a href="${pageContext.request.contextPath}/admin/user/${user.id}/delete/perfil/${perfil.id}" class="list-group-item"
+								onclick="return confirm('<spring:message code="admin-user-form.label.excluiperfil" /> ${perfil.nome}?')"><i class="fa fa-minus-square"></i>&nbsp;&nbsp;${perfil.nome}</a>
 						</c:forEach>
 					</div>
 				</div>
@@ -62,9 +62,9 @@
 				<div class="form-group col-md-6">
 					<label><spring:message code="admin-user-form.label.perfil.disp" />:</label>
 					<div class="list-group">
-						<c:forEach items="${roles}" var="r">
-							<a href="${pageContext.request.contextPath}/admin/user/${user.id}/add/role/${r.name}" class="list-group-item"
-								onclick="return confirm('<spring:message code="admin-user-form.label.adicionaperfil" /> ${r.label}?')"><i class="fa fa-plus-square"></i>&nbsp;&nbsp;${r.label}</a>
+						<c:forEach items="${perfis}" var="perfil">
+							<a href="${pageContext.request.contextPath}/admin/user/${user.id}/add/perfil/${perfil.id}" class="list-group-item"
+								onclick="return confirm('<spring:message code="admin-user-form.label.adicionaperfil" /> ${perfil.nome}?')"><i class="fa fa-plus-square"></i>&nbsp;&nbsp;${perfil.nome}</a>
 						</c:forEach>
 					</div>
 				</div>

@@ -35,7 +35,7 @@
 </div>
 
 <script>
-	$('#username').val('admin@sistema.com');
+	$('#username').val('admin@email.com');
 	$('#password').val('123456');
 </script>
 
