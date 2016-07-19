@@ -91,13 +91,12 @@ public class UserService extends Util {
 		}
 
 		if (novoUsuario) {
+			
 			user.setPassword(encryptMD5(user.getPassword()));
+			
 		} else {
 			
-			// TODO - Implementar busca perfis ao editar
-			
-//			List<Perfil> perfis = user.getPerfis();			
-//			user.setPerfis(perfis);
+			user.setPerfis(userMail.getPerfis());
 			
 		}
 

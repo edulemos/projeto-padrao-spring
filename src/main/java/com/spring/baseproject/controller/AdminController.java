@@ -18,7 +18,7 @@ public class AdminController {
 
 	@Autowired
 	private UserService userService;
-	
+
 	@Autowired
 	private PerfilService perfilService;
 
@@ -82,34 +82,67 @@ public class AdminController {
 		userService.addPerfil(userId, perfilId);
 		return userForm(userId, model);
 	}
-	
-	/**	PERFIL */
-	
+
+	/** PERFIL */
+
 	@RequestMapping(value = "/admin/perfil/list")
 	public String listarPerfis(Model model) {
 		model.addAttribute("listaPerfis", perfilService.listarPerfis());
 		return "admin/admin-perfil-list";
 	}
-	
+
 	@RequestMapping(value = "/admin/perfil/{id}", method = RequestMethod.GET)
 	public String perfilForm(@PathVariable("id") Long id, Model model) {
-		Perfil perfil = id != null ? perfilService.findBYId(id) : null;		
+		Perfil perfil = id != null ? perfilService.findBYId(id) : null;
 		model.addAttribute("roles", userService.rolesDisponiveisPerfil(perfil));
 		model.addAttribute("perfil", perfil);
 		return "admin/admin-perfil-form";
 	}
-	
+
 	@RequestMapping(value = "/admin/perfil/{perfilId}/delete/role/{roleId}", method = RequestMethod.GET)
 	public String deleteRolePerfil(@PathVariable Long perfilId, @PathVariable Long roleId, Model model) {
 		perfilService.deleteRolePerfil(perfilId, roleId);
 		return perfilForm(perfilId, model);
 	}
-	
+
 	@RequestMapping(value = "/admin/perfil/{perfilId}/add/role/{roleId}", method = RequestMethod.GET)
 	public String adicionarRolePerfil(@PathVariable Long perfilId, @PathVariable Long roleId, Model model) {
 		perfilService.adicionarRolePerfil(perfilId, roleId);
 		return perfilForm(perfilId, model);
 	}
 
+	@RequestMapping(value = "/admin/perfil/save")
+	public String salvarPerfil(Perfil perfil, Model model) {
+		try {
+			boolean novo = perfil.getId() == null;
+			String str = !novo ? messages.getMessage("admin-perfil-list.perfil.alterado", null, null) : messages.getMessage(
+					"admin-perfil-list.perfil.salvo", null, null);
+			model.addAttribute("msg", str);
+			perfilService.salvarPerfil(perfil);
+		} catch (Exception e) {
+			model.addAttribute("error", e.getMessage());
+		}
+		return listarPerfis(model);
+	}
+
+	@RequestMapping(value = "/admin/perfil/pesquisar", method = RequestMethod.POST)
+	public String pesquisarPerfil(String textotPesquisa, Model model) {
+		if (!textotPesquisa.isEmpty()) {
+			model.addAttribute("listaPerfis", perfilService.pesquisar(textotPesquisa));
+			return "admin/admin-perfil-list";
+		}
+		return userList(model);
+	}
+
+	@RequestMapping(value = "/admin/perfil/delete/{id}", method = RequestMethod.GET)
+	public String deletarPerfil(@PathVariable Long id, Model model) {
+		try {
+			perfilService.deleteBYId(id);
+			model.addAttribute("msg", messages.getMessage("admin-perfil-list.perfil.deletado", null, null));
+		} catch (Exception e) {			
+			model.addAttribute("error", e.getMessage());
+		}
+		return listarPerfis(model);
+	}
 
 }

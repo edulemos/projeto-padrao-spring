@@ -26,11 +26,9 @@ public class Perfil {
 
 	@Column(nullable = false, length = 100)
 	private String nome;
-	
+
 	@ManyToMany
-	@JoinTable(name = "TB_PERFIL_ROLES",
-	           joinColumns = { @JoinColumn(name = "PERFIL_ID") },
-	           inverseJoinColumns = { @JoinColumn(name = "ROLE_ID") })
+	@JoinTable(name = "TB_PERFIL_ROLES", joinColumns = { @JoinColumn(name = "PERFIL_ID") }, inverseJoinColumns = { @JoinColumn(name = "ROLE_ID") })
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<Role> roles = new ArrayList<Role>();
 
