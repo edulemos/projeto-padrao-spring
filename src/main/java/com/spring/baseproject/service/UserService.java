@@ -190,7 +190,8 @@ public class UserService extends Util {
 		userRepository.save(user);	
 	}
 
-	public Object perfisDisponiveis(User user) {
+	public List<Perfil> perfisDisponiveis(User user) {
+		if(null == user) return null;
 		List<Perfil> perfisDiposniveis = perfilRepository.findAll();
 		for (Perfil perfil : user.getPerfis()) {
 			if (perfisDiposniveis.contains(perfil)) {				

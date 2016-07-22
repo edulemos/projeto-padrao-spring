@@ -100,6 +100,11 @@ public class PerfilService extends Util {
 			throw new BussinesException(messages.getMessage("admin-perfil-list.msg.perfilemuso", prmMsg.toArray(), null));
 		}
 		
+		Perfil perfil = perfilRepository.findOne(id);
+		perfil.getRoles().clear();
+		
+		perfilRepository.save(perfil);
+		
 		perfilRepository.delete(id);
 		
 	}
