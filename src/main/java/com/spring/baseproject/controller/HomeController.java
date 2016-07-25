@@ -117,7 +117,7 @@ public class HomeController {
 			return "home/recuperar-senha";
 		}
 	}
-	
+
 	@RequestMapping(value = "/login/resetarSenha/salvar", method = RequestMethod.POST)
 	public String resetarSenha(CadastroForm form, String key, Model model) {
 		try {

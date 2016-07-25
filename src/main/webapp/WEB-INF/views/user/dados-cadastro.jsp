@@ -5,6 +5,8 @@
 	<legend><spring:message code="dados-cadastro.titulo"/></legend>
 
 <form:form modelAttribute="userForm" servletRelativeAction="/user/dadosCadastrais/save" onsubmit="return validateFormUser()">
+	<input type="hidden" name="id" value="${user.id}" />
+	<input type="hidden" name="password" value="${user.password}" />
 
 	<div class="row">
 		<div class="form-group col-md-6">

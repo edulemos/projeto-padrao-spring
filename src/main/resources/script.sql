@@ -1,38 +1,37 @@
-/* Para gerar as tabelas use o atributo hibernate.generate_dll=true em application.properties */
+/* PARA GERAR AS TABELAS USE O ATRIBUTO HIBERNATE.GENERATE_DLL=TRUE EM APPLICATION.PROPERTIES */
 
-/*cria os usuarios - senha criptogafada = 123456 */
-insert into TB_USUARIO (ID, EMAIL, NAME, PASSWORD) values (1 , 'admin@email.com', 'Administrador do sistema', 'e10adc3949ba59abbe56e057f20f883e');
-insert into TB_USUARIO (ID, EMAIL, NAME, PASSWORD) values (2 , 'usuario@email.com', 'Usuario do sistema', 'e10adc3949ba59abbe56e057f20f883e');
+/* CRIA O USUARIO ADMIN COM A SENHA 101010*/
 
-/*cria os perfis de acesso*/
-insert into TB_PERFIL (ID, NOME) values (1, 'PERFIL ADMIN');
-insert into TB_PERFIL (ID, NOME) values (2, 'PERFIL USUARIO');
+INSERT INTO TB_USUARIO (ID, EMAIL, NAME, PASSWORD) VALUES (1 , 'admin@email.com', 'Administrador do Sistema', '6d071901727aec1ba6d8e2497ef5b709');
+INSERT INTO TB_PERFIL (ID, NOME) VALUES (1, 'Perfil Admin');
+INSERT INTO TB_USUARIO_PERFIL (USUARIO_ID, PERFIL_ID) VALUES (1, 1);
+INSERT INTO TB_PERFIL_ROLES (PERFIL_ID, ROLE_ID) VALUES (1, 1);
+INSERT INTO TB_PERFIL_ROLES (PERFIL_ID, ROLE_ID) VALUES (1, 2);
+INSERT INTO TB_PERFIL_ROLES (PERFIL_ID, ROLE_ID) VALUES (1, 3);
 
-/*associa os perfis aos usuarios*/
-insert into TB_USUARIO_PERFIL (USUARIO_ID, PERFIL_ID) values (1, 1);
-insert into TB_USUARIO_PERFIL (USUARIO_ID, PERFIL_ID) values (2, 2);
+/***************************************************************************************************************************************************
+   
+AS ROLES DO SISTEMA(ROLESENUM --> TB_ROLE) SÃO INSERIDAS E ATUALIZADAS AUTOMATICAMENTE PELA CLASSE APPSTART AO INICIAR A APLICACAO PELA PRIMEIRA VEZ
 
-/* inserido ao iniciar o sistema pela classe AppStart.java
-insert into TB_ROLE (ID, NOME, DESCRICAO) values (1, 'ROLE_MANTER_USUARIOS', 'Manter usuários sistema');
-insert into TB_ROLE (ID, NOME, DESCRICAO) values (2, 'ROLE_MANTER_PERFIS', 'Manter perfis sistema');
-insert into TB_ROLE (ID, NOME, DESCRICAO) values (3, 'ROLE_MANTER_PRODUTOS', 'Manter produtos');*/
+****************************************************************************************************************************************************/
 
-/*associa as roles aos perfis*/
-insert into TB_PERFIL_ROLES (PERFIL_ID, ROLE_ID) values (1, 1);
-insert into TB_PERFIL_ROLES (PERFIL_ID, ROLE_ID) values (1, 2);
-insert into TB_PERFIL_ROLES (PERFIL_ID, ROLE_ID) values (1, 3);
-insert into TB_PERFIL_ROLES (PERFIL_ID, ROLE_ID) values (2, 3);
-
-/*consulta perfis usuarios*/
-select u.name nome_usuario, p.nome perfis_associados
-from tb_perfil p, tb_usuario u, tb_usuario_perfil up
-where  u.id = up.usuario_id
-and up.perfil_id = p.id;
-
-/*consulta permissoes perfis*/
-select p.nome perfil, r.descricao permissao
-  from tb_perfil p, tb_role r, tb_perfil_roles pr
- where p.id = pr.perfil_id
-   and pr.role_id = r.id;
+/*CONSULTA PERFIS USUARIOS*/
+SELECT U.NAME NOME_USUARIO, P.NOME PERFIS_ASSOCIADOS
+FROM TB_PERFIL P, TB_USUARIO U, TB_USUARIO_PERFIL UP
+WHERE  U.ID = UP.USUARIO_ID
+AND UP.PERFIL_ID = P.ID;
 
 
+/*CONSULTA PERMISSOES PERFIS*/
+SELECT P.NOME PERFIL, R.NOME ROLE_ASSOCIADA, R.DESCRICAO DESCRICAO_ROLE
+  FROM TB_PERFIL P, TB_ROLE R, TB_PERFIL_ROLES PR
+ WHERE P.ID = PR.PERFIL_ID
+   AND PR.ROLE_ID = R.ID;
+   
+/* DELETES POR ORDEM*/  
+   DELETE FROM TB_PERFIL_ROLES;
+   DELETE FROM TB_ROLE; 
+   DELETE FROM TB_USUARIO_PERFIL;
+   DELETE FROM TB_PERFIL;
+   DELETE FROM TB_USUARIO;
+   

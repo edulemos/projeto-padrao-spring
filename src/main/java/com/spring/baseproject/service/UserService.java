@@ -24,7 +24,7 @@ public class UserService extends Util {
 
 	@Autowired
 	private UserRepository userRepository;
-	
+
 	@Autowired
 	private PerfilRepository perfilRepository;
 
@@ -33,9 +33,9 @@ public class UserService extends Util {
 
 	@Autowired
 	private MessageSource messages;
-	
+
 	@Autowired
-	private EmailUtil  emailUtil;
+	private EmailUtil emailUtil;
 
 	public List<User> findAll() {
 		return userRepository.findAll();
@@ -78,11 +78,11 @@ public class UserService extends Util {
 
 	public void salvar(User user) {
 
-		User userMail = userRepository.findUserByEmail(user.getEmail());
+		User userAux = userRepository.findUserByEmail(user.getEmail());
 
-		boolean emailJaCadastrado = userMail != null;
+		boolean emailJaCadastrado = userAux != null;
 		boolean novoUsuario = user.getId() == null;
-		boolean mesmoUsuario = !novoUsuario && emailJaCadastrado && user.getId().equals(userMail.getId());
+		boolean mesmoUsuario = !novoUsuario && emailJaCadastrado && user.getId().equals(userAux.getId());
 
 		if (emailJaCadastrado && novoUsuario) {
 			throw new BussinesException(messages.getMessage("admin-user-form.msg.emailemuso", null, null));
@@ -91,13 +91,18 @@ public class UserService extends Util {
 		}
 
 		if (novoUsuario) {
-			
+
 			user.setPassword(encryptMD5(user.getPassword()));
-			
+
 		} else {
-			
-			user.setPerfis(userMail.getPerfis());
-			
+
+			//se o email foi alterado tem que buscar pelo ID
+			if (null == userAux) {
+				userAux = userRepository.findOne(user.getId());
+			}
+
+			user.setPerfis(userAux.getPerfis());
+
 		}
 
 		userRepository.save(user);
@@ -119,7 +124,7 @@ public class UserService extends Util {
 
 	}
 
-	public List<Role> listarRoles() {		
+	public List<Role> listarRoles() {
 		return roleRepository.findAll();
 	}
 
@@ -129,27 +134,27 @@ public class UserService extends Util {
 
 	public void addPerfil(Long userId, Long perfilId) {
 		Perfil p = new Perfil();
-		p.setId(perfilId);		
+		p.setId(perfilId);
 		User user = userRepository.findOne(userId);
-		user.getPerfis().add(p);			
+		user.getPerfis().add(p);
 		userRepository.save(user);
 	}
-	
+
 	public List<Role> rolesDisponiveisPerfil(Perfil perfil) {
 		List<Role> roles = new ArrayList<Role>();
 		String userRoles = "";
 		if (null != perfil && !perfil.getRoles().isEmpty()) {
-			for (Role p : perfil.getRoles() ) {
+			for (Role p : perfil.getRoles()) {
 				userRoles += p.getAuthority() + "#";
 			}
 		}
-		
+
 		List<Role> allRoles = roleRepository.findAll();
-		
+
 		for (Role r : allRoles) {
 			if (userRoles.contains(r.getNome())) {
 				continue;
-			}			
+			}
 			roles.add(r);
 		}
 
@@ -157,27 +162,27 @@ public class UserService extends Util {
 	}
 
 	public void recuperarSenha(String email, String path) {
-		
+
 		User userMail = userRepository.findUserByEmail(email);
-	
+
 		if (userMail == null) {
 			throw new BussinesException(messages.getMessage("recuperar-senha.msg.emailnaocadastrado", null, null));
-		} 
-		
+		}
+
 		HashMap<String, String> parametros = new HashMap<String, String>();
-		parametros.put("$P{email}", email);		
-		parametros.put("$P{path}", path);		
-		parametros.put("$P{key}", encryptMD5(email+path+email));		
-		
+		parametros.put("$P{email}", email);
+		parametros.put("$P{path}", path);
+		parametros.put("$P{key}", encryptMD5(email + path + email));
+
 		emailUtil.setAssunto("Recuperar Senha");
-		emailUtil.setDestinatario(email);		
-		emailUtil.setNomeTemplate("recuperar-senha-email.html");	
-		emailUtil.setParametros(parametros);		
+		emailUtil.setDestinatario(email);
+		emailUtil.setNomeTemplate("recuperar-senha-email.html");
+		emailUtil.setParametros(parametros);
 		emailUtil.enviarEmailHtml();
 	}
 
 	public void verifcarKey(String email, String key, String path) {
-		String encryptKey = encryptMD5(email+path+email);
+		String encryptKey = encryptMD5(email + path + email);
 		if (!encryptKey.equals(key)) {
 			throw new BussinesException(messages.getMessage("recuperar-senha.msg.chaveinvalida", null, null));
 		}
@@ -187,15 +192,16 @@ public class UserService extends Util {
 		verifcarKey(form.getEmail(), key, path);
 		User user = userRepository.findUserByEmail(form.getEmail());
 		user.setPassword(encryptMD5(form.getSenha()));
-		userRepository.save(user);	
+		userRepository.save(user);
 	}
 
 	public List<Perfil> perfisDisponiveis(User user) {
 		List<Perfil> perfisDiposniveis = perfilRepository.findAll();
-		if(null == user) return perfisDiposniveis;
+		if (null == user)
+			return perfisDiposniveis;
 		for (Perfil perfil : user.getPerfis()) {
-			if (perfisDiposniveis.contains(perfil)) {				
-				perfisDiposniveis.remove(perfil);				
+			if (perfisDiposniveis.contains(perfil)) {
+				perfisDiposniveis.remove(perfil);
 			}
 		}
 		return perfisDiposniveis;
@@ -203,14 +209,11 @@ public class UserService extends Util {
 
 	public void deletePerfil(Long userId, Long perfilId) {
 		Perfil p = new Perfil();
-		p.setId(perfilId);		
+		p.setId(perfilId);
 		User user = userRepository.findOne(userId);
-		user.getPerfis().remove(p);			
+		user.getPerfis().remove(p);
 		userRepository.save(user);
-		
-	}
 
-	
-	
+	}
 
 }

@@ -27,23 +27,38 @@ public class AdminController {
 
 	@RequestMapping("/admin/user/list")
 	public String userList(Model model) {
-		model.addAttribute("listaUsuarios", userService.findAll());
+		try {
+			model.addAttribute("listaUsuarios", userService.findAll());
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("error", e.getMessage());
+		}
 		return "admin/admin-user-list";
 	}
 
 	@RequestMapping(value = "/admin/user/{id}", method = RequestMethod.GET)
 	public String userForm(@PathVariable("id") Long id, Model model) {
-		User user = id != null ? userService.findBYId(id) : null;
-		model.addAttribute("perfis", userService.perfisDisponiveis(user));
-		model.addAttribute("user", user);
+		try {
+			User user = id != null ? userService.findBYId(id) : null;
+			model.addAttribute("perfis", userService.perfisDisponiveis(user));
+			model.addAttribute("user", user);
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("error", e.getMessage());
+		}
 		return "admin/admin-user-form";
 	}
 
 	@RequestMapping(value = "/admin/user/find", method = RequestMethod.POST)
 	public String userPesquisar(String textotPesquisa, Model model) {
-		if (!textotPesquisa.isEmpty()) {
-			model.addAttribute("listaUsuarios", userService.find(textotPesquisa));
-			return "admin/admin-user-list";
+		try {
+			if (!textotPesquisa.isEmpty()) {
+				model.addAttribute("listaUsuarios", userService.find(textotPesquisa));
+				return "admin/admin-user-list";
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("error", e.getMessage());
 		}
 		return userList(model);
 	}
@@ -67,20 +82,35 @@ public class AdminController {
 
 	@RequestMapping(value = "/admin/user/delete/{id}", method = RequestMethod.GET)
 	public String userDelete(@PathVariable Long id, Model model) {
-		model.addAttribute("msg", messages.getMessage("admin-user-list.usuario.deletado", null, null));
-		userService.deleteBYId(id);
+		try {
+			model.addAttribute("msg", messages.getMessage("admin-user-list.usuario.deletado", null, null));
+			userService.deleteBYId(id);
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("error", e.getMessage());
+		}
 		return userList(model);
 	}
 
 	@RequestMapping(value = "/admin/user/{userId}/delete/perfil/{perfilId}", method = RequestMethod.GET)
 	public String userRoleDelete(@PathVariable Long userId, @PathVariable Long perfilId, Model model) {
-		userService.deletePerfil(userId, perfilId);
+		try {
+			userService.deletePerfil(userId, perfilId);
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("error", e.getMessage());
+		}
 		return userForm(userId, model);
 	}
 
 	@RequestMapping(value = "/admin/user/{userId}/add/perfil/{perfilId}", method = RequestMethod.GET)
 	public String userRoleAdd(@PathVariable Long userId, @PathVariable Long perfilId, Model model) {
-		userService.addPerfil(userId, perfilId);
+		try {
+			userService.addPerfil(userId, perfilId);
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("error", e.getMessage());
+		}
 		return userForm(userId, model);
 	}
 
@@ -88,27 +118,47 @@ public class AdminController {
 
 	@RequestMapping(value = "/admin/perfil/list")
 	public String listarPerfis(Model model) {
-		model.addAttribute("listaPerfis", perfilService.listarPerfis());
+		try {
+			model.addAttribute("listaPerfis", perfilService.listarPerfis());
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("error", e.getMessage());
+		}
 		return "admin/admin-perfil-list";
 	}
 
 	@RequestMapping(value = "/admin/perfil/{id}", method = RequestMethod.GET)
 	public String perfilForm(@PathVariable("id") Long id, Model model) {
-		Perfil perfil = id != null ? perfilService.findBYId(id) : null;
-		model.addAttribute("roles", userService.rolesDisponiveisPerfil(perfil));
-		model.addAttribute("perfil", perfil);
+		try {
+			Perfil perfil = id != null ? perfilService.findBYId(id) : null;
+			model.addAttribute("roles", userService.rolesDisponiveisPerfil(perfil));
+			model.addAttribute("perfil", perfil);
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("error", e.getMessage());
+		}
 		return "admin/admin-perfil-form";
 	}
 
 	@RequestMapping(value = "/admin/perfil/{perfilId}/delete/role/{roleId}", method = RequestMethod.GET)
 	public String deleteRolePerfil(@PathVariable Long perfilId, @PathVariable Long roleId, Model model) {
-		perfilService.deleteRolePerfil(perfilId, roleId);
+		try {
+			perfilService.deleteRolePerfil(perfilId, roleId);
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("error", e.getMessage());
+		}
 		return perfilForm(perfilId, model);
 	}
 
 	@RequestMapping(value = "/admin/perfil/{perfilId}/add/role/{roleId}", method = RequestMethod.GET)
 	public String adicionarRolePerfil(@PathVariable Long perfilId, @PathVariable Long roleId, Model model) {
-		perfilService.adicionarRolePerfil(perfilId, roleId);
+		try {
+			perfilService.adicionarRolePerfil(perfilId, roleId);
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("error", e.getMessage());
+		}
 		return perfilForm(perfilId, model);
 	}
 
@@ -129,9 +179,14 @@ public class AdminController {
 
 	@RequestMapping(value = "/admin/perfil/pesquisar", method = RequestMethod.POST)
 	public String pesquisarPerfil(String textotPesquisa, Model model) {
-		if (!textotPesquisa.isEmpty()) {
-			model.addAttribute("listaPerfis", perfilService.pesquisar(textotPesquisa));
-			return "admin/admin-perfil-list";
+		try {
+			if (!textotPesquisa.isEmpty()) {
+				model.addAttribute("listaPerfis", perfilService.pesquisar(textotPesquisa));
+				return "admin/admin-perfil-list";
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("error", e.getMessage());
 		}
 		return userList(model);
 	}
@@ -141,7 +196,7 @@ public class AdminController {
 		try {
 			perfilService.deleteBYId(id);
 			model.addAttribute("msg", messages.getMessage("admin-perfil-list.perfil.deletado", null, null));
-		} catch (Exception e) {	
+		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("error", e.getMessage());
 		}

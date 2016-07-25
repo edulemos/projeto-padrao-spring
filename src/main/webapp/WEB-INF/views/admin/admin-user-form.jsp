@@ -6,6 +6,7 @@
 
 	<form:form modelAttribute="admin-user-form" servletRelativeAction="/admin/user/save" onsubmit="return validateFormAdminUser(${user.id})">
 		<input type="hidden" name="id" value="${user.id}" />
+		<input type="hidden" name="id" value="${user.id}" />
 
 		<div class="row">
 

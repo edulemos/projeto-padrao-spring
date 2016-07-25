@@ -43,6 +43,9 @@ public class Util {
 		return matcher.matches();
 	}
 
-	
+	public static void main(String[] args) {
+		String senhaCripto = new Util().encryptMD5("101010");
+		System.out.println(senhaCripto);
+	}
 
 }

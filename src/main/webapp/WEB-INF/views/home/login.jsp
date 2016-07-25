@@ -36,7 +36,7 @@
 
 <script>
 	$('#username').val('admin@email.com');
-	$('#password').val('123456');
+	$('#password').val('101010');
 </script>
 
 
