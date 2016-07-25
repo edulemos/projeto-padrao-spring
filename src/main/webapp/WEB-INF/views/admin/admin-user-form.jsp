@@ -32,10 +32,10 @@
 
 				<div class="form-group col-md-6">
 					<label><spring:message code="admin-user-form.label.perfil" />:</label>
-					<select name="authorities[0]" class="form-control">
+					<select name="perfis[0].id" class="form-control">
 						<option value="">selecione</option>
-						<c:forEach items="${roles}" var="r">
-							<option value="${r.name}">${r.label}</option>
+						<c:forEach items="${perfis}" var="p">
+							<option value="${p.id}">${p.nome}</option>
 						</c:forEach>
 					</select>
 				</div>

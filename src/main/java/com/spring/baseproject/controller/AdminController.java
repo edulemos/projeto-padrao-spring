@@ -58,6 +58,7 @@ public class AdminController {
 			model.addAttribute("msg", str);
 			return userList(model);
 		} catch (Exception e) {
+			e.printStackTrace();
 			model.addAttribute("error", e.getMessage());
 			model.addAttribute("user", user);
 			return userForm(user.getId(), model);
@@ -120,6 +121,7 @@ public class AdminController {
 			model.addAttribute("msg", str);
 			perfilService.salvarPerfil(perfil);
 		} catch (Exception e) {
+			e.printStackTrace();
 			model.addAttribute("error", e.getMessage());
 		}
 		return listarPerfis(model);
@@ -139,7 +141,8 @@ public class AdminController {
 		try {
 			perfilService.deleteBYId(id);
 			model.addAttribute("msg", messages.getMessage("admin-perfil-list.perfil.deletado", null, null));
-		} catch (Exception e) {			
+		} catch (Exception e) {	
+			e.printStackTrace();
 			model.addAttribute("error", e.getMessage());
 		}
 		return listarPerfis(model);

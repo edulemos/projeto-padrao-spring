@@ -191,8 +191,8 @@ public class UserService extends Util {
 	}
 
 	public List<Perfil> perfisDisponiveis(User user) {
-		if(null == user) return null;
 		List<Perfil> perfisDiposniveis = perfilRepository.findAll();
+		if(null == user) return perfisDiposniveis;
 		for (Perfil perfil : user.getPerfis()) {
 			if (perfisDiposniveis.contains(perfil)) {				
 				perfisDiposniveis.remove(perfil);				

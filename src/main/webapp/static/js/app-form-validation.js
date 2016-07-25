@@ -8,7 +8,7 @@ function validateFormAdminUser(id) {
 	
 	if (typeof id == 'undefined'){		
 		validForm = validateNotEmptyInput('password', validForm);
-		validForm = validateNotEmptySelect('authorities[0]', validForm);
+		validForm = validateNotEmptySelect('perfis[0].id', validForm);
 	}
 		
 	return validForm;
