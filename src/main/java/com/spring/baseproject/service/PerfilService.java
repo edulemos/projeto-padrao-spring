@@ -3,6 +3,8 @@ package com.spring.baseproject.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
@@ -11,6 +13,7 @@ import com.spring.baseproject.Exception.BussinesException;
 import com.spring.baseproject.entity.Perfil;
 import com.spring.baseproject.entity.Role;
 import com.spring.baseproject.repository.PerfilRepository;
+import com.spring.baseproject.repository.RoleRepository;
 import com.spring.baseproject.util.Util;
 
 @Service
@@ -18,6 +21,9 @@ public class PerfilService extends Util {
 
 	@Autowired
 	PerfilRepository perfilRepository;
+	
+	@Autowired
+	private RoleRepository roleRepository;
 
 	@Autowired
 	private MessageSource messages;
@@ -66,7 +72,7 @@ public class PerfilService extends Util {
 
 		if ((nomeJaCadastrado && novoPerfil) || (nomeJaCadastrado && !novoPerfil && !mesmoPerfil)) {
 
-			throw new BussinesException(messages.getMessage("admin-perfil-form.msg.nomeemuso", null, null));
+			throw new BussinesException(messages.getMessage("perfil-form.msg.nomeemuso", null, null));
 
 		}
 		
@@ -83,12 +89,12 @@ public class PerfilService extends Util {
 
 	}
 
-	public Object pesquisar(String textotPesquisa) {
+	public List<Perfil> pesquisar(String textotPesquisa) {
 
 		return perfilRepository.pesquisar(textotPesquisa);
 
 	}
-
+	
 	public void deleteBYId(Long id) {
 		
 		Integer numAssociacoes = perfilRepository.buscarAssociacoesPerfil(id);
@@ -97,7 +103,7 @@ public class PerfilService extends Util {
 		prmMsg.add(numAssociacoes);
 		
 		if(numAssociacoes > 0 ){
-			throw new BussinesException(messages.getMessage("admin-perfil-list.msg.perfilemuso", prmMsg.toArray(), null));
+			throw new BussinesException(messages.getMessage("perfil-list.msg.perfilemuso", prmMsg.toArray(), null));
 		}
 		
 		Perfil perfil = perfilRepository.findOne(id);
@@ -107,6 +113,36 @@ public class PerfilService extends Util {
 		
 		perfilRepository.delete(id);
 		
+	}
+	
+	public List<Role> rolesDisponiveisPerfil(Perfil perfil) {
+		List<Role> roles = new ArrayList<Role>();
+		String userRoles = "";
+		if (null != perfil && !perfil.getRoles().isEmpty()) {
+			for (Role p : perfil.getRoles()) {
+				userRoles += p.getAuthority() + "#";
+			}
+		}
+
+		List<Role> allRoles = roleRepository.findAll();
+
+		for (Role r : allRoles) {
+			if (userRoles.contains(r.getNome())) {
+				continue;
+			}
+			roles.add(r);
+		}
+
+		return roles;
+	}
+	
+	public String rootUrl(HttpServletRequest request) {
+		String path = null;
+		if (request instanceof HttpServletRequest) {
+			HttpServletRequest req = ((HttpServletRequest) request);
+			path = req.getRequestURL().toString().replace(req.getServletPath(), "");
+		}
+		return path;
 	}
 
 }

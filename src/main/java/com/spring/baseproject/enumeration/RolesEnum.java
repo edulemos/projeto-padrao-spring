@@ -2,8 +2,8 @@ package com.spring.baseproject.enumeration;
 
 public enum RolesEnum {
 
-	MANTER_USUARIOS(1, "ROLE_MANTER_USUARIOS", "hasRole('MANTER_USUARIOS')", "/admin/user/**", "Manter usuários sistema"),
-	MANTER_PERFIS(2,"ROLE_MANTER_PERFIS", "hasRole('MANTER_PERFIS')", "/admin/perfil/**", "Manter perfis sistema"),
+	MANTER_USUARIOS(1, "ROLE_MANTER_USUARIOS", "hasRole('MANTER_USUARIOS')", "/usuarios/**", "Manter usuários sistema"),
+	MANTER_PERFIS(2,"ROLE_MANTER_PERFIS", "hasRole('MANTER_PERFIS')", "/perfis/**", "Manter perfis sistema"),
 	MANTER_PRODUTOS(3, "ROLE_MANTER_PRODUTOS", "hasRole('MANTER_PRODUTOS')", "/cadastros/produto/**", "Manter produtos"); 
 
 	private Integer id;

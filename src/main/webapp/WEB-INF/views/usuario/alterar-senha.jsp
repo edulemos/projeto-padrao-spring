@@ -3,7 +3,7 @@
 <fieldset>
 	<legend><spring:message code="alterar-senha.titulo"/></legend>
 
-<form:form modelAttribute="userPasswordForm" servletRelativeAction="/user/alterarSenha/save" onsubmit="return validateFormSenhaUser()">
+<form:form modelAttribute="userPasswordForm" servletRelativeAction="/alterarSenha/salvar" onsubmit="return validateFormSenhaUser()">
 
 	<div class="row">
 		<div class="form-group col-md-6">

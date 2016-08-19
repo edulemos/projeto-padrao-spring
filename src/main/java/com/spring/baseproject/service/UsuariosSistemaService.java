@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import com.spring.baseproject.Exception.BussinesException;
 import com.spring.baseproject.entity.Perfil;
 import com.spring.baseproject.entity.Role;
-import com.spring.baseproject.entity.User;
+import com.spring.baseproject.entity.Usuario;
 import com.spring.baseproject.form.CadastroForm;
 import com.spring.baseproject.repository.PerfilRepository;
 import com.spring.baseproject.repository.RoleRepository;
@@ -20,7 +20,7 @@ import com.spring.baseproject.util.EmailUtil;
 import com.spring.baseproject.util.Util;
 
 @Service
-public class UserService extends Util {
+public class UsuariosSistemaService extends Util {
 
 	@Autowired
 	private UserRepository userRepository;
@@ -37,19 +37,19 @@ public class UserService extends Util {
 	@Autowired
 	private EmailUtil emailUtil;
 
-	public List<User> findAll() {
+	public List<Usuario> findAll() {
 		return userRepository.findAll();
 	}
 
-	public List<User> find(String textotPesquisa) {
+	public List<Usuario> find(String textotPesquisa) {
 		return userRepository.findUsers(textotPesquisa, textotPesquisa);
 	}
 
-	public User findUserByEmail(String userName) {
-		return userRepository.findUserByEmail(userName);
+	public Usuario findUserByEmail(String userName) {
+		return userRepository.findUsuarioByEmail(userName);
 	}
 
-	public User findBYId(Long id) {
+	public Usuario findBYId(Long id) {
 		return userRepository.findOne(id);
 	}
 
@@ -57,37 +57,18 @@ public class UserService extends Util {
 		userRepository.delete(id);
 	}
 
-	public void cadastrarUsuario(CadastroForm form) {
+	public void salvar(Usuario user) {
 
-		User user;
-
-		user = userRepository.findUserByEmail(form.getEmail());
-
-		if (null != user) {
-			throw new BussinesException(messages.getMessage("cadastro.msg.emailemuso", null, null));
-		}
-
-		user = new User();
-		user.setEmail(form.getEmail());
-		user.setPassword(encryptMD5(form.getSenha()));
-		user.setName(form.getNome());
-
-		userRepository.save(user);
-
-	}
-
-	public void salvar(User user) {
-
-		User userAux = userRepository.findUserByEmail(user.getEmail());
+		Usuario userAux = userRepository.findUsuarioByEmail(user.getEmail());
 
 		boolean emailJaCadastrado = userAux != null;
 		boolean novoUsuario = user.getId() == null;
 		boolean mesmoUsuario = !novoUsuario && emailJaCadastrado && user.getId().equals(userAux.getId());
 
 		if (emailJaCadastrado && novoUsuario) {
-			throw new BussinesException(messages.getMessage("admin-user-form.msg.emailemuso", null, null));
+			throw new BussinesException(messages.getMessage("usuarios-form.msg.emailemuso", null, null));
 		} else if (emailJaCadastrado && !novoUsuario && !mesmoUsuario) {
-			throw new BussinesException(messages.getMessage("admin-user-form.msg.emailemuso", null, null));
+			throw new BussinesException(messages.getMessage("usuarios-form.msg.emailemuso", null, null));
 		}
 
 		if (novoUsuario) {
@@ -108,7 +89,7 @@ public class UserService extends Util {
 		userRepository.save(user);
 	}
 
-	public void alterarSenha(User userSession, CadastroForm form) {
+	public void alterarSenha(Usuario userSession, CadastroForm form) {
 
 		String senhaAtualSistema = userSession.getPassword();
 		String senhaAtualDigitada = encryptMD5(form.getSenha());
@@ -135,7 +116,7 @@ public class UserService extends Util {
 	public void addPerfil(Long userId, Long perfilId) {
 		Perfil p = new Perfil();
 		p.setId(perfilId);
-		User user = userRepository.findOne(userId);
+		Usuario user = userRepository.findOne(userId);
 		user.getPerfis().add(p);
 		userRepository.save(user);
 	}
@@ -163,7 +144,7 @@ public class UserService extends Util {
 
 	public void recuperarSenha(String email, String path) {
 
-		User userMail = userRepository.findUserByEmail(email);
+		Usuario userMail = userRepository.findUsuarioByEmail(email);
 
 		if (userMail == null) {
 			throw new BussinesException(messages.getMessage("recuperar-senha.msg.emailnaocadastrado", null, null));
@@ -190,12 +171,12 @@ public class UserService extends Util {
 
 	public void alterarSenha(CadastroForm form, String key, String path) {
 		verifcarKey(form.getEmail(), key, path);
-		User user = userRepository.findUserByEmail(form.getEmail());
+		Usuario user = userRepository.findUsuarioByEmail(form.getEmail());
 		user.setPassword(encryptMD5(form.getSenha()));
 		userRepository.save(user);
 	}
 
-	public List<Perfil> perfisDisponiveis(User user) {
+	public List<Perfil> perfisDisponiveis(Usuario user) {
 		List<Perfil> perfisDiposniveis = perfilRepository.findAll();
 		if (null == user)
 			return perfisDiposniveis;
@@ -210,7 +191,7 @@ public class UserService extends Util {
 	public void deletePerfil(Long userId, Long perfilId) {
 		Perfil p = new Perfil();
 		p.setId(perfilId);
-		User user = userRepository.findOne(userId);
+		Usuario user = userRepository.findOne(userId);
 		user.getPerfis().remove(p);
 		userRepository.save(user);
 

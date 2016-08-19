@@ -54,8 +54,8 @@
 				</a>
 
 					<ul class="dropdown-menu">
-						<li><a href="<c:url value="/user/dadosCadastrais"/>">Dados Cadastrais</a></li>
-						<li><a href="<c:url value="/user/alterarSenha"/>">Alterar Senha</a></li>
+						<li><a href="<c:url value="/dadosCadastro"/>">Dados Cadastro</a></li>
+						<li><a href="<c:url value="/alterarSenha"/>">Alterar Senha</a></li>
 					</ul>
 				</li>
 				

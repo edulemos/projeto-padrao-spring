@@ -6,17 +6,17 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.spring.baseproject.entity.User;
+import com.spring.baseproject.entity.Usuario;
 
 @Service
 public class SecutiryUserDetailsService implements UserDetailsService {
 
 	@Autowired
-	private UserService userService;
+	private UsuariosSistemaService userService;
 
 	@Override
 	public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {		
-		User user = userService.findUserByEmail(userName);
+		Usuario user = userService.findUserByEmail(userName);
 		if (user == null) {
 			throw new UsernameNotFoundException("UserName " + userName + " not found");
 		}

@@ -4,7 +4,7 @@
 <fieldset>
 	<legend><spring:message code="dados-cadastro.titulo"/></legend>
 
-<form:form modelAttribute="userForm" servletRelativeAction="/user/dadosCadastrais/save" onsubmit="return validateFormUser()">
+<form:form modelAttribute="userForm" servletRelativeAction="/dadosCadastro/salvar" onsubmit="return validateFormUser()">
 	<input type="hidden" name="id" value="${user.id}" />
 	<input type="hidden" name="password" value="${user.password}" />
 

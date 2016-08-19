@@ -24,7 +24,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
 @Table(name = "TB_USUARIO ")
-public class User implements UserDetails {
+public class Usuario implements UserDetails {
 
 	private static final long serialVersionUID = 1L;
 
@@ -159,7 +159,7 @@ public class User implements UserDetails {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		User other = (User) obj;
+		Usuario other = (Usuario) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;

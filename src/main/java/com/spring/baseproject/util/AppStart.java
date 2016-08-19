@@ -22,9 +22,9 @@ public class AppStart implements ApplicationListener<ContextRefreshedEvent> {
 	@Override
 	public void onApplicationEvent(final ContextRefreshedEvent event) {
 
-		roleRepository.findAll();
-
 		/** SINCRONIZA AS ROLES DO SISTEMA COM O BANCO AO INICIALIZAR */
+		
+		roleRepository.findAll();
 
 		for (RolesEnum r : RolesEnum.values()) {
 
