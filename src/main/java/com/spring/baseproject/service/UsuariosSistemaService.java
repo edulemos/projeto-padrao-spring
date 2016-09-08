@@ -197,4 +197,20 @@ public class UsuariosSistemaService extends Util {
 
 	}
 
+	public void deletarTodosPerfis(Long userId) {
+		Usuario user = findBYId(userId);
+		user.getPerfis().clear();
+		userRepository.save(user);
+	}
+
+	public void adicionarTodosPerfis(Long userId) {
+		Usuario user = findBYId(userId);
+		user.getPerfis().clear();
+		userRepository.save(user);
+		
+		List<Perfil> todosPerfis = perfilRepository.findAll();
+		user.setPerfis(todosPerfis);
+		userRepository.save(user);
+	}
+
 }

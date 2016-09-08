@@ -22,6 +22,7 @@
 	
 	<script type="text/javascript" src="<c:url value='/static/js/jquery-1.11.1.min.js'/>"></script>
 	<script type="text/javascript" src="<c:url value='/static/js/bootstrap.min.js'/>"></script>
+	<script type="text/javascript" src="<c:url value='/static/js/angular.min.js'/>"></script>
 	
 	<script type="text/javascript" src="<c:url value='/static/js/app-form-validation.js' />"></script>
 	<script type="text/javascript" src="<c:url value='/static/js/validation-util.js' />"></script>
