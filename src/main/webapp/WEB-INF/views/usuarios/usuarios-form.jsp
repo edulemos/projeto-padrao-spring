@@ -1,6 +1,6 @@
 <%@ include file="/template/header-sistema.jsp"%>
 
-<script type="text/javascript" src="<c:url value='/static/js/usuarios-form-script.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/static/js/app/usuarios-form-script.js'/>"></script>
 
 <fieldset>
 	<legend>${user.id != null ? 'Editar' : 'Cadastrar'}
@@ -52,8 +52,8 @@
 			<input type="hidden" name="password" value="${user.password}" />
 
 				<div class="row">
-					<div class="form-group col-md-6"><input type="text" ng-model="busca1" class="form-control" placeholder="digite o perfil para pesquisar" /></div>
-					<div class="form-group col-md-6"><input type="text" ng-model="busca2" class="form-control" placeholder="digite o perfil paraa pesquisar" /></div>
+					<div class="form-group col-md-6"><input type="text" ng-model="busca1" class="form-control" placeholder="digite para pesquisar" /></div>
+					<div class="form-group col-md-6"><input type="text" ng-model="busca2" class="form-control" placeholder="digite para pesquisar" /></div>
 				</div>
 				
 				<div class="row">

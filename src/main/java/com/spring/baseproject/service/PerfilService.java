@@ -21,7 +21,7 @@ public class PerfilService extends Util {
 
 	@Autowired
 	PerfilRepository perfilRepository;
-	
+
 	@Autowired
 	private RoleRepository roleRepository;
 
@@ -75,13 +75,13 @@ public class PerfilService extends Util {
 			throw new BussinesException(messages.getMessage("perfil-form.msg.nomeemuso", null, null));
 
 		}
-		
+
 		if (!novoPerfil) {
-			
+
 			perfilAux = perfilRepository.findOne(perfil.getId());
-			
+
 			List<Role> roles = perfilAux.getRoles();
-			
+
 			perfil.setRoles(null != roles ? roles : null);
 		}
 
@@ -94,27 +94,27 @@ public class PerfilService extends Util {
 		return perfilRepository.pesquisar(textotPesquisa);
 
 	}
-	
+
 	public void deleteBYId(Long id) {
-		
+
 		Integer numAssociacoes = perfilRepository.buscarAssociacoesPerfil(id);
-		
-		List <Object> prmMsg = new ArrayList<Object>();
+
+		List<Object> prmMsg = new ArrayList<Object>();
 		prmMsg.add(numAssociacoes);
-		
-		if(numAssociacoes > 0 ){
+
+		if (numAssociacoes > 0) {
 			throw new BussinesException(messages.getMessage("perfil-list.msg.perfilemuso", prmMsg.toArray(), null));
 		}
-		
+
 		Perfil perfil = perfilRepository.findOne(id);
 		perfil.getRoles().clear();
-		
+
 		perfilRepository.save(perfil);
-		
+
 		perfilRepository.delete(id);
-		
+
 	}
-	
+
 	public List<Role> rolesDisponiveisPerfil(Perfil perfil) {
 		List<Role> roles = new ArrayList<Role>();
 		String userRoles = "";
@@ -135,7 +135,7 @@ public class PerfilService extends Util {
 
 		return roles;
 	}
-	
+
 	public String rootUrl(HttpServletRequest request) {
 		String path = null;
 		if (request instanceof HttpServletRequest) {
@@ -144,5 +144,38 @@ public class PerfilService extends Util {
 		}
 		return path;
 	}
+
+	public void deletarTodasRoles(Long perfilId) {
+		Perfil perfil = perfilRepository.findOne(perfilId);
+		perfil.getRoles().clear();
+		perfilRepository.save(perfil);
+	}
+
+	public void deleteRole(Long perfilId, Long roleId) {
+		Role role = new Role();
+		role.setId(roleId);
+		Perfil perfil = perfilRepository.findOne(perfilId);
+		perfil.getRoles().remove(role);
+		perfilRepository.save(perfil);
+	}
+
+	public void adicionarTodasRoles(Long perfilId) {
+		Perfil perfil = perfilRepository.findOne(perfilId);
+		List<Role> allRoles = roleRepository.findAll();
+		perfil.setRoles(allRoles);
+		perfilRepository.save(perfil);
+	}
+
+	public void addRole(Long perfilId, Long roleId) {
+		Role role = new Role();
+		role.setId(roleId);
+		Perfil perfil = perfilRepository.findOne(perfilId);
+		perfil.getRoles().add(role);
+		perfilRepository.save(perfil);
+
+		
+	}
+	
+	
 
 }

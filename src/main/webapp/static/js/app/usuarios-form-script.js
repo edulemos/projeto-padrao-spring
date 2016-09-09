@@ -137,7 +137,7 @@ app.directive('bsTooltip', function() {
 
 function addMessage(msg){
 	$(".msgs").hide();
-	$("<div  class=\"msgs alert alert-info fade in\">" + msg + "</div>").insertAfter("#legend2");
+	$("<div style=\"font-weight: bold; font-size: medium;text-transform:uppercase;\" class=\"msgs alert alert-info fade in\">&nbsp;<span class=\"glyphicon glyphicon-info-sign\"></span>&nbsp;" + msg + "</div>").insertAfter("#legend2");
 	$(".alert").fadeTo(3000, 0).slideUp(1000, function(){
 		$(this).remove(); 
 	});

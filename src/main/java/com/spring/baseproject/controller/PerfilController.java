@@ -1,14 +1,21 @@
 package com.spring.baseproject.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.spring.baseproject.entity.AjaxResponseBody;
 import com.spring.baseproject.entity.Perfil;
+import com.spring.baseproject.entity.Role;
 import com.spring.baseproject.service.PerfilService;
 
 @Controller
@@ -20,6 +27,66 @@ public class PerfilController {
 
 	@Autowired
 	private MessageSource messages;
+	
+	@RequestMapping(value = "/rolesdiponiveis/perfil/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody List<Role> rolesDisponiveisJSON(@PathVariable Long id) {
+		Perfil perfil = id != null ? service.findBYId(id) : null;
+		return service.rolesDisponiveisPerfil(perfil);
+	}
+
+	@RequestMapping(value = "/rolesAssociadas/perfil/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody List<Role> rolesAssociadosJSON(@PathVariable Long id) {
+		List<Role> rolesDisponiveis = new ArrayList<Role>();
+		Perfil perfil = id != null ? service.findBYId(id) : null;
+		if (null != perfil) {
+			rolesDisponiveis = perfil.getRoles();
+		}
+		return rolesDisponiveis;
+	}
+	
+	@RequestMapping(value = "/{perfilId}/delete/todasroles", method = RequestMethod.GET , produces = MediaType.APPLICATION_JSON_VALUE)
+	public  @ResponseBody AjaxResponseBody deletarTodasRoles(@PathVariable Long perfilId) {
+		try {
+			service.deletarTodasRoles(perfilId);
+			return new AjaxResponseBody(messages.getMessage("perfil-form.msg.todasrolesremovidas", null, null));
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new AjaxResponseBody(e.getMessage());
+		}
+	}
+	
+	@RequestMapping(value = "/{perfilId}/delete/role/{roleId}", method = RequestMethod.GET , produces = MediaType.APPLICATION_JSON_VALUE)
+	public  @ResponseBody AjaxResponseBody deletarRole(@PathVariable Long perfilId, @PathVariable Long roleId) {
+		try {
+			service.deleteRole(perfilId, roleId);
+			return new AjaxResponseBody(messages.getMessage("perfil-form.msg.roleremovida", null, null));
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new AjaxResponseBody(e.getMessage());
+		}
+	}
+	
+	@RequestMapping(value = "/{perfilId}/add/todasroles", method = RequestMethod.GET , produces = MediaType.APPLICATION_JSON_VALUE)
+	public  @ResponseBody AjaxResponseBody adicionarTodasRoles(@PathVariable Long perfilId) {
+		try {
+			service.adicionarTodasRoles(perfilId);
+			return new AjaxResponseBody(messages.getMessage("perfil-form.msg.todasrolesadicionadas", null, null));
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new AjaxResponseBody(e.getMessage());
+		}
+	}
+	
+	@RequestMapping(value = "/{perfilId}/add/role/{roleId}", method = RequestMethod.GET , produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody AjaxResponseBody incluirRoleJSON(@PathVariable Long perfilId, @PathVariable Long roleId) {
+		try {
+			service.addRole(perfilId, roleId);
+			return new AjaxResponseBody(messages.getMessage("perfil-form.msg.roleadicionada", null, null));
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new AjaxResponseBody(e.getMessage());
+		}
+	}
 
 	@RequestMapping(value = "/list")
 	public String listarPerfis(Model model) {
@@ -36,7 +103,6 @@ public class PerfilController {
 	public String perfilForm(@PathVariable("id") Long id, Model model) {
 		try {
 			Perfil perfil = id != null ? service.findBYId(id) : null;
-			model.addAttribute("roles", service.rolesDisponiveisPerfil(perfil));
 			model.addAttribute("perfil", perfil);
 		} catch (Exception e) {
 			e.printStackTrace();
