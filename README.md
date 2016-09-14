@@ -27,7 +27,8 @@ projeto spring mvc configurado
 
 * Importar Projeto como maven project
 * Rodar o Projeto no tomcat a 1º vez para criar as tabelas
-* Acessar o console do H2 em: http://localhost:8080/spring/console
+* Acessar o console do H2:
+ * http://localhost:8080/spring/console
  * JDBC URL: jdbc: h2:~/h2db/spring_db 
  * User Name: sa 
  * Password:
