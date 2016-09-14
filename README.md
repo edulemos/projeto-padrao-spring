@@ -32,8 +32,10 @@ projeto spring mvc configurado
  * JDBC URL: jdbc: h2:~/h2db/spring_db 
  * User Name: sa 
  * Password:
-* Rodar script insert inicial que está em: src/main/resources/script.sql
-* Acessar projeto http://localhost:8080/spring
+* Rodar script de insert inicial que está em:
+ * src/main/resources/script.sql
+* Acessar projeto em
+ * http://localhost:8080/spring
 * configurações do banco de dados em:
  * src/main/resources/application.properties
 * configurações de email em:
