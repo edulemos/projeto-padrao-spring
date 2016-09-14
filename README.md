@@ -32,4 +32,4 @@ projeto spring mvc configurado
  * User Name: sa 
  * Password:
 * Rodar script insert inicial que está em: src/main/resources/script.sql
-* Acessar http://localhost:8080/spring
+* Acessar projeto http://localhost:8080/spring
