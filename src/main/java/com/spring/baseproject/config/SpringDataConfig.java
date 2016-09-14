@@ -49,7 +49,7 @@ public class SpringDataConfig {
 	public EntityManagerFactory entityManagerFactory() {
 		LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
 		factory.setJpaVendorAdapter(jpaVendorAdapter());
-		factory.setPackagesToScan(env.getProperty("data.packages.to_scan", String.class));
+		factory.setPackagesToScan("com.spring.baseproject.entity");
 		factory.setDataSource(dataSource());
 		factory.afterPropertiesSet();
 		return factory.getObject();
