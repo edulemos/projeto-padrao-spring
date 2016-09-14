@@ -38,5 +38,5 @@ projeto spring mvc configurado
  * http://localhost:8080/spring
 * configurações do banco de dados em:
  * src/main/resources/application.properties
-* configurações de email em:
+* configurações de envio de email em:
  * src/main/resources/email.properties
