@@ -23,7 +23,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
-@Table(name = "TB_USUARIO ")
+@Table(name = "tb_usuario ")
 public class Usuario implements UserDetails {
 
 	private static final long serialVersionUID = 1L;
@@ -42,7 +42,7 @@ public class Usuario implements UserDetails {
 	private String name;
 
 	@ManyToMany
-	@JoinTable(name = "TB_USUARIO_PERFIL", joinColumns = { @JoinColumn(name = "USUARIO_ID") }, inverseJoinColumns = { @JoinColumn(name = "PERFIL_ID") })
+	@JoinTable(name = "tb_usuario_perfil", joinColumns = { @JoinColumn(name = "usuario_id") }, inverseJoinColumns = { @JoinColumn(name = "perfil_id") })
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<Perfil> perfis = new ArrayList<Perfil>();
 

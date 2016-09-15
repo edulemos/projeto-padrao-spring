@@ -17,7 +17,7 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
 @Entity
-@Table(name = "TB_PERFIL")
+@Table(name = "tb_perfil")
 public class Perfil {
 
 	@Id
@@ -28,7 +28,7 @@ public class Perfil {
 	private String nome;
 
 	@ManyToMany
-	@JoinTable(name = "TB_PERFIL_ROLES", joinColumns = { @JoinColumn(name = "PERFIL_ID") }, inverseJoinColumns = { @JoinColumn(name = "ROLE_ID") })
+	@JoinTable(name = "tb_perfil_roles", joinColumns = { @JoinColumn(name = "perfil_id") }, inverseJoinColumns = { @JoinColumn(name = "role_id") })
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<Role> roles = new ArrayList<Role>();
 
