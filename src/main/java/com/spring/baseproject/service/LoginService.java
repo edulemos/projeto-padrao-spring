@@ -36,7 +36,7 @@ public class LoginService extends Util {
 		HashMap<String, String> parametros = new HashMap<String, String>();
 		parametros.put("$P{email}", email);
 		parametros.put("$P{path}", path);
-		parametros.put("$P{key}", encryptMD5(email + path + email));
+		parametros.put("$P{key}", encryptMD5(email + "#" + email));
 
 		emailUtil.setAssunto("Recuperar Senha");
 		emailUtil.setDestinatario(email);
@@ -45,15 +45,15 @@ public class LoginService extends Util {
 		emailUtil.enviarEmailHtml();
 	}
 
-	public void verifcarKey(String email, String key, String path) {
-		String encryptKey = encryptMD5(email + path + email);
+	public void verifcarKey(String email, String key) {
+		String encryptKey = encryptMD5(email + "#" + email);
 		if (!encryptKey.equals(key)) {
 			throw new BussinesException(messages.getMessage("recuperar-senha.msg.chaveinvalida", null, null));
 		}
 	}
 
-	public void alterarSenha(CadastroForm form, String key, String path) {
-		verifcarKey(form.getEmail(), key, path);
+	public void alterarSenha(CadastroForm form, String key) {
+		verifcarKey(form.getEmail(), key);
 		Usuario user = userRepository.findUsuarioByEmail(form.getEmail());
 		user.setPassword(encryptMD5(form.getSenha()));
 		userRepository.save(user);

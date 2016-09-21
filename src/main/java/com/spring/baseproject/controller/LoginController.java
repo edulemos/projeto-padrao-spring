@@ -59,8 +59,7 @@ public class LoginController {
 	@RequestMapping(value = "/login/resetarSenha/{email}/{key}", method = RequestMethod.GET)
 	public String resetarSenha(@PathVariable("email") String email, @PathVariable("key") String key, Model model) {
 		try {
-			String path = rooturl();
-			service.verifcarKey(email, key, path);
+			service.verifcarKey(email, key);
 			return "home/resetar-senha";
 		} catch (Exception e) {
 			model.addAttribute("error", e.getMessage());
@@ -71,8 +70,7 @@ public class LoginController {
 	@RequestMapping(value = "/login/resetarSenha/salvar", method = RequestMethod.POST)
 	public String salvarNovaSenha(CadastroForm form, String key, Model model) {
 		try {
-			String path = rooturl();
-			service.alterarSenha(form, key, path);
+			service.alterarSenha(form, key);
 			model.addAttribute("msg", messages.getMessage("recuperar-senha.sucesso", null, null));
 			return "home/login";
 		} catch (Exception e) {
@@ -100,7 +98,6 @@ public class LoginController {
 			model.addAttribute("error", e.getMessage());
 		}
 		return recuperarSenha();
-
 	}
 
 	private String rooturl() {

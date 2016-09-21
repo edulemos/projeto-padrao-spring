@@ -167,5 +167,15 @@ public class Usuario implements UserDetails {
 			return false;
 		return true;
 	}
+	
+	public Usuario() {
+	}
+	
+	public Usuario(String email, String password, String name) {
+		super();
+		this.email = email;
+		this.password = password;
+		this.name = name;
+	}
 
 }

@@ -1,9 +1,14 @@
 package com.spring.baseproject.test.controller;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,7 +25,8 @@ import org.springframework.web.context.WebApplicationContext;
 import com.spring.baseproject.config.SpringDataConfig;
 import com.spring.baseproject.config.SpringMvcConfig;
 import com.spring.baseproject.config.SpringSecurityConfig;
-import com.spring.baseproject.service.CadastroService;
+import com.spring.baseproject.entity.Usuario;
+import com.spring.baseproject.repository.UserRepository;
 import com.spring.baseproject.test.util.TestUtil;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -28,47 +34,75 @@ import com.spring.baseproject.test.util.TestUtil;
 @ContextConfiguration(classes = { SpringSecurityConfig.class, SpringMvcConfig.class, SpringDataConfig.class })
 public class CadastroControllerTest {
 
-	@Autowired
-	private CadastroService service;
-
+	
 	@Autowired
 	private MessageSource messages;
-
+	
+	@Autowired
+	private UserRepository repository;
+	
 	@Autowired
 	private WebApplicationContext wac;
 
 	private MockMvc mockMvc;
+	
+	List<Usuario> testUsers = new ArrayList<Usuario>();
 
+	
 	@Before
 	public void setup() {
 		this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
 	}
 
 	@Test
-	public void cadastroPage() throws Exception {
-		mockMvc.perform(get("/cadastro")).andExpect(status().isOk()).andExpect(view().name("home/cadastro"));
-	}
+	public void testCadastroOk() throws Exception {
+		
+		Usuario testUser = TestUtil.getTestUser();
+		testUsers.add(testUser);
 
-	@Test
-	public void cadastroOk() throws Exception {
-		
-		String dataHoraString = TestUtil.dataHoraString();
-		String nome = "Usuario " + dataHoraString;
-		String email = dataHoraString + "@email.com";
-		
+
 		this.mockMvc.perform(post("/cadastro/save")				
 				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
-				.param("nome", nome)
-				.param("email", email)
-				.param("confirmaEmail", email)
-				.param("senha", "123456")
-				.param("confirmaSenha", "123456"))
+				.param("nome", testUser.getName())
+				.param("email", testUser.getEmail())
+				.param("confirmaEmail", testUser.getEmail())
+				.param("senha", testUser.getPassword())
+				.param("confirmaSenha", testUser.getPassword()))
 				.andExpect(view().name("home/cadastro"))
 				.andExpect(model().attribute("msg", messages.getMessage("cadastro.msg.sucesso", null, null)));
+		
 	}
 	
 	@Test
-	public void cadastroEmailInvalido() throws Exception {
+	public void testCadastroEmailNaoInformado() throws Exception {
+		
+		this.mockMvc.perform(post("/cadastro/save")	
+				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
+				.param("nome", "teste")
+				//.param("email", "email@email.com")
+				.param("confirmaEmail", "email@email.com")
+				.param("senha", "123456")
+				.param("confirmaSenha", "123456"))
+				.andExpect(view().name("home/cadastro"))
+				.andExpect(model().attributeHasFieldErrors("cadastroForm", "email"));		
+	}
+	
+	@Test
+	public void testCadastroConfirmaEmailNaoInformado() throws Exception {
+		
+		this.mockMvc.perform(post("/cadastro/save")	
+				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
+				.param("nome", "teste")
+				.param("email", "email@email.com")
+				//.param("confirmaEmail", "email@email.com")
+				.param("senha", "123456")
+				.param("confirmaSenha", "123456"))
+				.andExpect(view().name("home/cadastro"))
+				.andExpect(model().attributeHasFieldErrors("cadastroForm", "confirmaEmail"));		
+	}	
+	
+	@Test
+	public void testCadastroEmailInvalido() throws Exception {
 		
 		String dataHoraString = TestUtil.dataHoraString();
 		String nome = "Usuario " + dataHoraString;
@@ -80,9 +114,78 @@ public class CadastroControllerTest {
 				.param("confirmaEmail", "<error>")
 				.param("senha", "123456")
 				.param("confirmaSenha", "123456"))
-                .andDo(print())
 				.andExpect(view().name("home/cadastro"))
 		        .andExpect(model().attributeHasFieldErrors("cadastroForm", "email", "confirmaEmail"));		
+		
+	}
+	
+	
+	@Test
+	public void testCadastroEmailDuplicado() throws Exception {
+		
+		Usuario testUser = TestUtil.getTestUser();
+		repository.save(testUser);
+		testUsers.add(testUser);
+		
+		this.mockMvc.perform(post("/cadastro/save")	
+				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
+				.param("nome", testUser.getName())
+				.param("email", testUser.getEmail())
+				.param("confirmaEmail", testUser.getEmail())
+				.param("senha", "123456")
+				.param("confirmaSenha", "123456"))
+				.andExpect(view().name("home/cadastro"))
+				.andExpect(model().attribute("error", messages.getMessage("cadastro.msg.emailemuso", null, null)));	
+	
+	}
+	
+	@Test
+	public void testCadastroNomeNaoInformado() throws Exception {
+		
+		this.mockMvc.perform(post("/cadastro/save")	
+				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
+				//.param("nome", nome)
+				.param("email", "email@email.com")
+				.param("confirmaEmail", "email@email.com")
+				.param("senha", "123456")
+				.param("confirmaSenha", "123456"))
+				.andExpect(view().name("home/cadastro"))
+				.andExpect(model().attributeHasFieldErrors("cadastroForm", "nome"));		
+	}
+	
+	@Test
+	public void testCadastroSenhaNaoInformada() throws Exception {
+		
+		this.mockMvc.perform(post("/cadastro/save")	
+				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
+				.param("nome", "nome")
+				.param("email", "email@email.com")
+				.param("confirmaEmail", "email@email.com")
+			//	.param("senha", "123456")
+				.param("confirmaSenha", "123456"))
+				.andExpect(view().name("home/cadastro"))
+				.andExpect(model().attributeHasFieldErrors("cadastroForm", "senha"));		
+	}
+	
+	@Test
+	public void testCadastroConfirmaSenhaNaoInformada() throws Exception {
+		
+		this.mockMvc.perform(post("/cadastro/save")	
+				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
+				.param("nome", "nome")
+				.param("email", "email@email.com")
+				.param("confirmaEmail", "email@email.com")
+				.param("senha", "123456"))
+//				.param("confirmaSenha", "123456"))
+				.andExpect(view().name("home/cadastro"))
+				.andExpect(model().attributeHasFieldErrors("cadastroForm", "confirmaSenha"));		
+	}
+	
+	@After
+	public void deletarDadosDeTeste() throws ClassNotFoundException, SQLException{
+		for (Usuario usuario : testUsers) {
+			TestUtil.deleteUsuarioDeTeste(usuario.getEmail());
+		}
 	}
 
 }
