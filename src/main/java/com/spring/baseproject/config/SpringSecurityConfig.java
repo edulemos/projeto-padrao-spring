@@ -25,7 +25,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 		 http.authorizeRequests()
 		 
-		 	.antMatchers("/login/**", "/cadastro/**").permitAll()                
+		 	.antMatchers("/login/**", "/cadastro/**","/version/**").permitAll()                
 		 	
 		    .antMatchers(RolesEnum.MANTER_USUARIOS.getUrl()).access(RolesEnum.MANTER_USUARIOS.getRoleAcess())		    
 		    .antMatchers(RolesEnum.MANTER_PRODUTOS.getUrl()).access(RolesEnum.MANTER_PRODUTOS.getRoleAcess())

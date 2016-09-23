@@ -99,6 +99,11 @@ public class LoginController {
 		}
 		return recuperarSenha();
 	}
+	
+	@RequestMapping(value = "/version", method = RequestMethod.GET)
+	public String version() {
+		return "home/version";
+	}
 
 	private String rooturl() {
 		String path = null;

@@ -27,13 +27,12 @@ import com.spring.baseproject.config.SpringMvcConfig;
 import com.spring.baseproject.config.SpringSecurityConfig;
 import com.spring.baseproject.entity.Usuario;
 import com.spring.baseproject.repository.UserRepository;
-import com.spring.baseproject.test.util.TestUtil;
+import com.spring.baseproject.test.util.TestBuild;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration(classes = { SpringSecurityConfig.class, SpringMvcConfig.class, SpringDataConfig.class })
-public class CadastroControllerTest {
-
+public class CadastroControllerTest extends TestBuild{
 	
 	@Autowired
 	private MessageSource messages;
@@ -54,12 +53,12 @@ public class CadastroControllerTest {
 		this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
 	}
 
+	/** TESTE UMA UM CADASTRO VALIDO - STATUS OK*/
 	@Test
 	public void testCadastroOk() throws Exception {
 		
-		Usuario testUser = TestUtil.getTestUser();
+		Usuario testUser = getTestUser();
 		testUsers.add(testUser);
-
 
 		this.mockMvc.perform(post("/cadastro/save")				
 				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
@@ -73,6 +72,7 @@ public class CadastroControllerTest {
 		
 	}
 	
+	/** TESTE UMA UM CADASTRO COM EMAIL NÃO INFORMADO - STATUS NOK*/
 	@Test
 	public void testCadastroEmailNaoInformado() throws Exception {
 		
@@ -87,6 +87,7 @@ public class CadastroControllerTest {
 				.andExpect(model().attributeHasFieldErrors("cadastroForm", "email"));		
 	}
 	
+	/** TESTE UMA UM CADASTRO COM A CONFIRMACAO EMAIL NÃO INFORMADO - STATUS NOK*/
 	@Test
 	public void testCadastroConfirmaEmailNaoInformado() throws Exception {
 		
@@ -101,10 +102,11 @@ public class CadastroControllerTest {
 				.andExpect(model().attributeHasFieldErrors("cadastroForm", "confirmaEmail"));		
 	}	
 	
+	/** TESTE UMA UM CADASTRO COM O EMAIL INVALIDO - STATUS NOK*/
 	@Test
 	public void testCadastroEmailInvalido() throws Exception {
 		
-		String dataHoraString = TestUtil.dataHoraString();
+		String dataHoraString = dataHoraString();
 		String nome = "Usuario " + dataHoraString;
 		
 		this.mockMvc.perform(post("/cadastro/save")	
@@ -119,11 +121,11 @@ public class CadastroControllerTest {
 		
 	}
 	
-	
+	/** TESTE DE UM CADASTRO COM O EMAIL JA CADASTRADO - STATUS NOK*/
 	@Test
 	public void testCadastroEmailDuplicado() throws Exception {
 		
-		Usuario testUser = TestUtil.getTestUser();
+		Usuario testUser = getTestUser();
 		repository.save(testUser);
 		testUsers.add(testUser);
 		
@@ -139,6 +141,7 @@ public class CadastroControllerTest {
 	
 	}
 	
+	/** TESTE DE UM CADASTRO COM O NOME NAO INFORMADO - STATUS NOK*/
 	@Test
 	public void testCadastroNomeNaoInformado() throws Exception {
 		
@@ -153,6 +156,8 @@ public class CadastroControllerTest {
 				.andExpect(model().attributeHasFieldErrors("cadastroForm", "nome"));		
 	}
 	
+	
+	/** TESTE DE UM CADASTRO COM A SENHA NAO INFORMADA - STATUS NOK*/
 	@Test
 	public void testCadastroSenhaNaoInformada() throws Exception {
 		
@@ -167,6 +172,7 @@ public class CadastroControllerTest {
 				.andExpect(model().attributeHasFieldErrors("cadastroForm", "senha"));		
 	}
 	
+	/** TESTE DE UM CADASTRO COM A CONFIRMACAO DA SENHA NA INFORMADA - STATUS NOK*/
 	@Test
 	public void testCadastroConfirmaSenhaNaoInformada() throws Exception {
 		
@@ -184,7 +190,7 @@ public class CadastroControllerTest {
 	@After
 	public void deletarDadosDeTeste() throws ClassNotFoundException, SQLException{
 		for (Usuario usuario : testUsers) {
-			TestUtil.deleteUsuarioDeTeste(usuario.getEmail());
+			deleteUsuarioDeTeste(usuario.getEmail());
 		}
 	}
 
