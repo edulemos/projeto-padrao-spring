@@ -29,7 +29,7 @@ projeto spring mvc configurado
 * Rodar o Projeto no tomcat
 * Acessar o console do H2:
  * http://localhost:8080/spring/console
- * JDBC URL: jdbc: h2:~/h2db/spring_db 
+ * JDBC URL: jdbc:h2:~/h2db/spring_db 
  * User Name: sa 
  * Password:
 * Rodar script de insert inicial que está em:
