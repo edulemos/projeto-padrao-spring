@@ -2,14 +2,18 @@
 <div class="sidebar-nav">
 	<ul>
 
+  	
 		<li><a href="#" data-target=".admin-menu" class="nav-header collapsed" data-toggle="collapse">
 		<i class="fa fa-cog"></i><spring:message code="menu.admin"/><i class="fa fa-collapse"></i></a></li>
 		<li>
 			<ul class="admin-menu nav nav-list collapse">
+		  	<sec:authorize access="hasRole('MANTER_USUARIOS')">
 				<li><a href="<c:url value="/usuarios/list"/>"><spring:message code="menu.admin.usuarios.sistema"/></a></li>
+			</sec:authorize>	
 				<li><a href="<c:url value="/perfis/list"/>"><spring:message code="menu.admin.perfis.sistema"/></a></li>
 			</ul>
 		</li>
+		
 
 		<li><a href="#" data-target=".user-menu" class="nav-header collapsed" data-toggle="collapse">
 		<i class="fa fa-child"></i><spring:message code="menu.cadastros"/><i class="fa fa-collapse"></i></a></li>

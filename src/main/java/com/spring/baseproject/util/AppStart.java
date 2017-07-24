@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 
 import com.spring.baseproject.entity.Role;
 import com.spring.baseproject.enumeration.RolesEnum;
-import com.spring.baseproject.repository.PerfilRepository;
 import com.spring.baseproject.repository.RoleRepository;
 
 @Component
@@ -15,9 +14,6 @@ public class AppStart implements ApplicationListener<ContextRefreshedEvent> {
 
 	@Autowired
 	RoleRepository roleRepository;
-
-	@Autowired
-	PerfilRepository perfilRepository;
 
 	@Override
 	public void onApplicationEvent(final ContextRefreshedEvent event) {
