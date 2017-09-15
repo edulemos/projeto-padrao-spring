@@ -1,5 +1,6 @@
 package com.spring.baseproject.entity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +19,8 @@ import org.hibernate.annotations.LazyCollectionOption;
 
 @Entity
 @Table(name = "tb_perfil")
-public class Perfil {
+public class Perfil implements Serializable{
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
