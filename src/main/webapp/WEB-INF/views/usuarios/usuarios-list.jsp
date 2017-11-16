@@ -53,7 +53,7 @@
       </div>
       <div class="modal-body">
       
-        <form:form modelAttribute="adminUserSearch" servletRelativeAction="/admin/user/find" method="post">
+        <form:form modelAttribute="adminUserSearch" servletRelativeAction="/usuarios/find" method="post">
 				
 			<div class="row">	
 				<div class="form-group col-md-12">
