@@ -29,8 +29,7 @@ public class SpringMvcConfig extends WebMvcConfigurerAdapter{
 	public JasperReportsViewResolver getJasperReportsViewResolver() {
 	  JasperReportsViewResolver resolver = new JasperReportsViewResolver();
 	  resolver.setPrefix("classpath:/reports/");
-	  resolver.setSuffix(".jasper");
-	  resolver.setReportDataKey("datasource");
+	  resolver.setSuffix(".jrxml");
 	  resolver.setViewNames("report_*");
 	  resolver.setViewClass(JasperReportsMultiFormatView.class);
 	  resolver.setOrder(0);
