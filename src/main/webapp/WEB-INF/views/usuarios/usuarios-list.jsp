@@ -37,8 +37,10 @@
 					</ul>
 				</td>
 				<td style="text-align: center;">
-				<a href="${pageContext.request.contextPath}/usuarios/delete/${user.id}" onclick="return confirm('<spring:message code="usuarios-list.msg.excluir" /> ${user.name}?')"><i class="fa fa-trash fa-2x"></i></a> &nbsp;&nbsp;&nbsp; 
-				<a href="${pageContext.request.contextPath}/usuarios/form/${user.id}"><i class="fa fa-pencil-square-o fa-2x"></i></a></td>
+				<c:if test = "${not user.admin}">
+					<a href="${pageContext.request.contextPath}/usuarios/delete/${user.id}" onclick="return confirm('<spring:message code="usuarios-list.msg.excluir" /> ${user.name}?')"><i class="fa fa-trash fa-2x"></i></a> &nbsp;&nbsp;&nbsp; 
+					<a href="${pageContext.request.contextPath}/usuarios/form/${user.id}"><i class="fa fa-pencil-square-o fa-2x"></i></a></td>
+				</c:if>
 			</tr>
 		</c:forEach>
 	</tbody>

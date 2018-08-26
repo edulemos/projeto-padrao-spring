@@ -34,8 +34,10 @@
 			    </c:forEach>		
 				</td>				
 				<td style="text-align: center;">				 
+				<c:if test = "${not perfil.admin}">
 					<a href="${pageContext.request.contextPath}/perfis/delete/${perfil.id}" onclick="return confirm('<spring:message code="perfil-list.msg.excluir" /> ${perfil.nome}?')"><i class="fa fa-trash fa-2x"></i></a> &nbsp;&nbsp;&nbsp;
 					<a href="${pageContext.request.contextPath}/perfis/form/${perfil.id}"><i class="fa fa-pencil-square-o fa-2x"></i></a>
+				</c:if>
 				</td>
 			</tr>
 		</c:forEach>

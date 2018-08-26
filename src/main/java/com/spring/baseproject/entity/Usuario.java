@@ -40,6 +40,9 @@ public class Usuario implements UserDetails {
 
 	@Column(nullable = false, length = 100)
 	private String name;
+	
+	@Column(nullable = false)
+	private boolean admin;
 
 	@ManyToMany
 	@JoinTable(name = "tb_usuario_perfil", joinColumns = { @JoinColumn(name = "usuario_id") }, inverseJoinColumns = { @JoinColumn(name = "perfil_id") })
@@ -105,6 +108,14 @@ public class Usuario implements UserDetails {
 
 	public void setPerfis(List<Perfil> perfis) {
 		this.perfis = perfis;
+	}
+	
+	public boolean isAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(boolean admin) {
+		this.admin = admin;
 	}
 
 	@Override

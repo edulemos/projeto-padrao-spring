@@ -28,6 +28,9 @@ public class Perfil implements Serializable{
 
 	@Column(nullable = false, length = 100)
 	private String nome;
+	
+	@Column(nullable = false)
+	private boolean admin;
 
 	@ManyToMany
 	@JoinTable(name = "tb_perfil_roles", joinColumns = { @JoinColumn(name = "perfil_id") }, inverseJoinColumns = { @JoinColumn(name = "role_id") })
@@ -56,6 +59,14 @@ public class Perfil implements Serializable{
 
 	public void setRoles(List<Role> roles) {
 		this.roles = roles;
+	}
+	
+	public boolean isAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(boolean admin) {
+		this.admin = admin;
 	}
 
 	@Override
