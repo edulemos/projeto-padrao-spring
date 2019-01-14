@@ -1,7 +1,5 @@
 # projeto-padrao-spring
 projeto spring mvc configurado
-
-## Link projeto rodando: http://52.67.207.169:8080/spring
  
 ### Tecnologias:
  
