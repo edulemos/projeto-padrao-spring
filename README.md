@@ -3,38 +3,41 @@ projeto spring mvc configurado
  
 ### Tecnologias:
  
- * spring mcv
- * srping security
+ * spring boot 2.4.5
+ * java 11
+ * spring security
  * spring data
- * Spring anotations config
- * botstrap 3 template
- * tomcat 8 
- * java 7
- * maven
+ * spring devtools
+ * bean validation
+ * h2 database
+
+ ### Front:
+
+ * jsp / template
+ * botstrap 5
+ * jquery
+ * datatables
  
-### Caracteristicas:
  
+### Funcionalidades:
+ 
+ * cadastrar usuario
  * login
  * recuperar senha
+ * conta usuario
+ * alterar senha
+ * consulta cep correios
  * administração de usuários
- * perfis de usuários sistema
+ * administração perfis / roles sistema
+ * parametrização sistema
  * envio de email
  
 
-### Para executar:
+### Executar / Compilar:
 
-* Importar Projeto como maven project
-* Rodar o Projeto no tomcat
-* Acessar o console do H2:
- * http://localhost:8080/spring/console
- * JDBC URL: jdbc:h2:~/h2db/spring_db 
- * User Name: sa 
- * Password:
-* Rodar script de insert inicial que está em:
- * src/main/resources/script.sql
-* Acessar projeto em
- * http://localhost:8080/spring
-* configurações do banco de dados em:
- * src/main/resources/application.properties
-* configurações de envio de email em:
- * src/main/resources/email.properties
+* compilar: mvn clean package -Dmaven.test.skip=true -P "hml"
+
+* Executar: run main  MainApplication class ou mvn spring-boot:run -P "dev"
+
+* acessar: http://localhost:5000
+
