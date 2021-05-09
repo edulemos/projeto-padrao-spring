@@ -9,7 +9,9 @@ projeto spring mvc configurado
  * spring data
  * spring devtools
  * bean validation
+ * lombok ( requer plugin eclipse )
  * h2 database
+ * mavem
 
  ### Front:
 
