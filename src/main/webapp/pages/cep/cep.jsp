@@ -70,7 +70,6 @@
 <script type="text/javascript">
 			$(document).ready(function () {
 
-
 				$("#cep").inputmask("99.999-999");
 
 				$("#cep").inputmask({
@@ -83,7 +82,6 @@
 					if (size == 8) {
 
 						var url = "/cep/" + value;
-						alert(url);
 
 						$.getJSON(url, function (result) {
 							if (!result.localidade) {
@@ -93,14 +91,13 @@
 									return new bootstrap.Toast(toastEl)
 								});
 								toastList.forEach(toast => toast.show());
-
 							} else {
+								$("#uf").val(result.uf);
+								$("#cidade").val(result.localidade);
+								$("#bairro").val(result.bairro);
+								$("#endereco").val(result.logradouroDNEC);
 								$("#numero").focus();
 							}
-							$("#bairro").val(result.bairro);
-							$("#uf").val(result.uf);
-							$("#cidade").val(result.localidade);
-							$("#endereco").val(result.logradouroDNEC);
 
 						});
 

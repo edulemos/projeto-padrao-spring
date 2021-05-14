@@ -11,7 +11,9 @@ http://baseproject-env.eba-xh3g2zt8.us-east-1.elasticbeanstalk.com
  * spring data
  * spring devtools
  * bean validation
+ * lombok ( requer plugin eclipse )
  * h2 database
+ * mavem
 
  ### Front:
 
