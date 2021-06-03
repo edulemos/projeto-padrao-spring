@@ -1,7 +1,5 @@
 # projeto-padrao-spring
 projeto spring mvc configurado
-
-http://baseproject-env.eba-xh3g2zt8.us-east-1.elasticbeanstalk.com
  
 ### Tecnologias:
  
