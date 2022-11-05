@@ -26,7 +26,7 @@ public class BuscaCepUtil {
 
 		CepResponseDto cepResponse = restTemplate.postForObject(endpoint, request, CepResponseDto.class);
 
-		if (null != cepResponse.getDados()) {
+		if (null != cepResponse && null != cepResponse.getDados()) {
 			CepDataDto cepDataDto = cepResponse.getDados().get(0);
 			String logradouroDNEC = cepDataDto.getLogradouroDNEC();
 			try {
