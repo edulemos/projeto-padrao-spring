@@ -1,6 +1,8 @@
 package com.baseproject.util;
 
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -15,17 +17,23 @@ public class BuscaCepUtil {
 
 		RestTemplate restTemplate = new RestTemplate();
 		String endpoint = ServiceUtil.getParameter(ParametrosEnum.ENDPOINT_CEP);
-		String url = endpoint  + "?endereco=" + cep + "&tipoCEP=ALL";
-		ResponseEntity<CepResponseDto> response = restTemplate.getForEntity(url, CepResponseDto.class);
+		String parametros = "endereco=" + cep + "&tipoCEP=ALL";
 
-		if (null != response.getBody() && null != response.getBody().getDados() && !response.getBody().getDados().isEmpty()) {
-			CepDataDto cepDataDto = response.getBody().getDados().get(0);
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+
+		HttpEntity<String> request = new HttpEntity<>(parametros, headers);
+
+		CepResponseDto cepResponse = restTemplate.postForObject(endpoint, request, CepResponseDto.class);
+
+		if (null != cepResponse.getDados()) {
+			CepDataDto cepDataDto = cepResponse.getDados().get(0);
 			String logradouroDNEC = cepDataDto.getLogradouroDNEC();
 			try {
 				cepDataDto.setLogradouroDNEC(logradouroDNEC.split("-")[0].trim());
 			} catch (Exception e) {
 			}
-			
+
 			return cepDataDto;
 		} else {
 			return new CepDataDto();
@@ -34,5 +42,3 @@ public class BuscaCepUtil {
 	}
 
 }
-
-
